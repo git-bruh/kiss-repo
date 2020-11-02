@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+go build -o gotify-server
+install -Dm755 gotify-server "$1/usr/bin/gotify-server"

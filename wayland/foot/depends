@@ -1,0 +1,13 @@
+fcft
+fontconfig
+freetype-harfbuzz
+libxkbcommon
+linux-headers     make
+meson             make
+pixman
+pkgconf           make
+python            make
+samurai           make
+tllist
+wayland
+wayland-protocols make

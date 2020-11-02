@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+cat <<EOF
+For 'pihole status' to work properly, '/usr/bin/lsof' must be owned by 'lsof':
+-> kiss a lsof /usr/bin/lsof
+Additionally, 'ncurses' or 'netbsd-curses' must be installed to avoid harmless errors like \
+'tput: command not found'
+EOF

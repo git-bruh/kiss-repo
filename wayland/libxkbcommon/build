@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+meson \
+    --prefix=/usr \
+    -Ddefault_library=both \
+    -Denable-x11=false \
+    -Denable-docs=false \
+    -Denable-wayland=true \
+    -Denable-xkbregistry=false \
+    -Dxkb-config-root=/usr/share/X11/xkb \
+    -Dx-locale-root=/usr/share/X11/locale \
+    . output
+
+ninja -C output
+ninja -C output install

@@ -1,0 +1,6 @@
+cmake    make
+gmp      make
+libidn   make
+nettle   make
+readline make
+sqlite   make

@@ -1,0 +1,4 @@
+https://github.com/pi-hole/FTL/archive/v5.6.tar.gz
+files/pi-hole-ftl.conf
+files/run
+patches/version.patch

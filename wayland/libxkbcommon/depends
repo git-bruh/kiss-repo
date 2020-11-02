@@ -1,0 +1,7 @@
+bison             make
+meson             make
+pkgconf           make
+samurai           make
+wayland
+wayland-protocols make
+xkeyboard-config

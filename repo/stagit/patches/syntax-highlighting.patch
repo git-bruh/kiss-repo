@@ -1,0 +1,141 @@
+diff --git a/Makefile b/Makefile
+index bb79c6f..88e30c6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -8,12 +8,14 @@ PREFIX = /usr/local
+ MANPREFIX = ${PREFIX}/man
+ DOCPREFIX = ${PREFIX}/share/doc/${NAME}
+ 
++CMARK_LIB = -L/usr/local/lib -lcmark-gfm
++
+ LIBGIT_INC = -I/usr/local/include
+ LIBGIT_LIB = -L/usr/local/lib -lgit2
+ 
+ # use system flags.
+ STAGIT_CFLAGS = ${LIBGIT_INC} ${CFLAGS}
+-STAGIT_LDFLAGS = ${LIBGIT_LIB} ${LDFLAGS}
++STAGIT_LDFLAGS = ${CMARK_LIB} ${LIBGIT_LIB} ${LDFLAGS}
+ STAGIT_CPPFLAGS = -D_XOPEN_SOURCE=700 -D_DEFAULT_SOURCE -D_BSD_SOURCE
+ 
+ SRC = \
+diff --git a/stagit.c b/stagit.c
+index 5043c0d..9400c5a 100644
+--- a/stagit.c
++++ b/stagit.c
+@@ -12,6 +12,7 @@
+ #include <time.h>
+ #include <unistd.h>
+ 
++#include <cmark-gfm.h>
+ #include <git2.h>
+ 
+ #include "compat.h"
+@@ -79,6 +80,8 @@ static char lastoidstr[GIT_OID_HEXSZ + 2]; /* id + newline + NUL byte */
+ static FILE *rcachefp, *wcachefp;
+ static const char *cachefile;
+ 
++#define CMD_BUFSIZE 255
++
+ void
+ joinpath(char *buf, size_t bufsiz, const char *path, const char *path2)
+ {
+@@ -502,36 +505,68 @@ writefooter(FILE *fp)
+ 	fputs("</div>\n</body>\n</html>\n", fp);
+ }
+ 
++const char *
++get_ext(const char *filename)
++{
++	const char *dot = strrchr(filename, '.');
++	if (!dot || dot == filename) return "";
++	return dot + 1;
++}
++
++size_t
++syntax_highlight(const char *filename, FILE *fp, const char *s, size_t len)
++{
++	size_t lc = 0;
++	// Flush HTML-file
++	fflush(fp);
++	// Markdown
++	if (strcmp(get_ext(filename), "md") == 0) {
++		char *markdown_html = cmark_markdown_to_html(s, len, CMARK_OPT_DEFAULT);
++		fprintf(fp, "%s", markdown_html);
++		free(markdown_html);
++	}
++	else {
++		// Copy STDOUT
++		int stdout_copy = dup(1);
++		// Redirect STDOUT
++		dup2(fileno(fp), 1);
++		char cmd[CMD_BUFSIZE];
++		snprintf(cmd, sizeof(cmd), "chroma --html --html-only --html-lines "
++		    "--html-lines-table --filename %s", filename);
++
++		FILE *child = popen(cmd, "w");
++		if (child == NULL) {
++		    printf("child is null: %s", strerror(errno));
++		    exit(1);
++		}
++		// Give code to highlight through STDIN:
++		size_t i;
++		for (i = 0; *s && i < len; s++, i++) {
++		    if (*s == '\n') lc++;
++		    fprintf(child, "%c", *s);
++		}
++
++		pclose(child);
++		fflush(stdout);
++		// Give back STDOUT.
++		dup2(stdout_copy, 1);
++	}
++	return lc;
++}
++
+ size_t
+-writeblobhtml(FILE *fp, const git_blob *blob)
++writeblobhtml(const char *filename, FILE *fp, const git_blob *blob)
+ {
+-	size_t n = 0, i, len, prev;
+-	const char *nfmt = "<a href=\"#l%zu\" class=\"line\" id=\"l%zu\">%7zu</a> ";
++	size_t lc = 0;
+ 	const char *s = git_blob_rawcontent(blob);
+ 
+-	len = git_blob_rawsize(blob);
+-	fputs("<pre id=\"blob\">\n", fp);
++	size_t len = git_blob_rawsize(blob);
+ 
+ 	if (len > 0) {
+-		for (i = 0, prev = 0; i < len; i++) {
+-			if (s[i] != '\n')
+-				continue;
+-			n++;
+-			fprintf(fp, nfmt, n, n, n);
+-			xmlencode(fp, &s[prev], i - prev + 1);
+-			prev = i + 1;
+-		}
+-		/* trailing data */
+-		if ((len - prev) > 0) {
+-			n++;
+-			fprintf(fp, nfmt, n, n, n);
+-			xmlencode(fp, &s[prev], len - prev);
+-		}
++		lc = syntax_highlight(filename, fp, s, len);
+ 	}
+ 
+-	fputs("</pre>\n", fp);
+-
+-	return n;
++	return lc;
+ }
+ 
+ void
+@@ -917,7 +952,7 @@ writeblob(git_object *obj, const char *fpath, const char *filename, size_t files
+ 	if (git_blob_is_binary((git_blob *)obj)) {
+ 		fputs("<p>Binary file.</p>\n", fp);
+ 	} else {
+-		lc = writeblobhtml(fp, (git_blob *)obj);
++		lc = writeblobhtml(filename, fp, (git_blob *)obj);
+ 		if (ferror(fp))
+ 			err(1, "fwrite");
+ 	}

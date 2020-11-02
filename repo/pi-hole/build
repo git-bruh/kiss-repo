@@ -1,0 +1,33 @@
+#!/bin/sh -e
+
+patch -p1 < kiss-server-core-5.2.4.patch
+
+install -Dm755 pihole     "$1/usr/bin/pihole"
+install -Dm755 gravity.sh "$1/opt/pihole/gravity.sh"
+
+for script in list webpage wildcard_regex_converter query \
+        pihole-reenable piholeARPTable; do
+    script="advanced/Scripts/$script.sh"
+    install -Dm755 "$script" "$1/opt/pihole/$(basename $script)"
+done
+
+install -Dm644 advanced/Scripts/COL_TABLE "$1/opt/pihole/COL_TABLE"
+
+for stuff in gravity.db.sql gravity_copy.sql; do
+    install -Dm644 "advanced/Templates/$stuff" "$1/opt/pihole/$stuff"
+done
+
+cp -a advanced/Scripts/database_migration "$1/opt/pihole/"
+
+install -Dm644 dnsmasq.include "$1/etc/dnsmasq.d/01-pihole.conf"
+install -Dm644 advanced/dnsmasq.conf.original "$1/etc/dnsmasq.conf"
+
+for dir in etc/pihole usr/share/pihole/configs; do
+    install -dm755 "$1/$dir"
+done
+
+install -Dm644 adlists.list "$1/etc/pihole/adlists.list"
+
+for script in basic-install.sh mimic_setupVars.conf.sh; do
+    install -Dm755 "$script" "$1/opt/pihole/$script"
+done

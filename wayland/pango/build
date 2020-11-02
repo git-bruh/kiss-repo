@@ -1,0 +1,19 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+sed -i "/subdir('tests')/d"    meson.build
+sed -i "/subdir('examples')/d" meson.build
+
+meson \
+    --prefix=/usr \
+    --wrap-mode=nodownload \
+    -Dgir=false \
+    -Dgtk_doc=false \
+    -Dintrospection=disabled \
+    -Dinstalled_tests=false \
+    -Dxft=disabled \
+    . output
+
+ninja -C output
+ninja -C output install

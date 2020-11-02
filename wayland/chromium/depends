@@ -1,0 +1,28 @@
+alsa-lib
+atk
+bison              make
+bzip2
+ffmpeg
+flac
+fontconfig
+freetype-harfbuzz
+glib
+gperf              make
+gtk+3
+libdrm
+libexif
+libgcrypt
+libjpeg-turbo
+libwebp
+mesa
+nodejs             make
+nss
+opus
+perl               make
+pkgconf            make
+python             make
+python2            make
+samurai            make
+wayland
+wayland-protocols  make
+zlib

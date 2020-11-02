@@ -1,0 +1,6 @@
+http://codemadness.org/releases/stagit/stagit-0.9.5.tar.gz
+files/post-receive
+files/stagit-gen-index
+files/stagit-new-repo
+files/stagit.conf
+patches/syntax-highlighting.patch

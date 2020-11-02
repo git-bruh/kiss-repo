@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+install -d "$1/usr/share/themes/dracula-gtk-theme"
+
+cp -a assets gtk-* index.theme "$1/usr/share/themes/dracula-gtk-theme"

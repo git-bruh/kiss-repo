@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+bins="dendrite-monolith-server generate-config generate-keys"
+
+for bin in $bins; do
+    go build \
+        -trimpath \
+        "./cmd/$bin"
+    install -Dm755 "./$bin" "$1/usr/bin/dendrite-${bin#dendrite-}"
+done

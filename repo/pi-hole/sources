@@ -1,0 +1,5 @@
+https://github.com/pi-hole/pi-hole/archive/v5.2.4.tar.gz
+files/basic-install.sh
+files/dnsmasq.include
+files/mimic_setupVars.conf.sh
+patches/kiss-server-core-5.2.4.patch

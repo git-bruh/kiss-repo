@@ -1,0 +1,28 @@
+#!/bin/sh -e
+
+# Uncomment if using valgrind or similar.
+# :>nostrip
+
+# Make the gcc wrapper search for headers and libs from /usr too.
+sed -i tools/musl-gcc.specs.sh \
+    -e 's|$incdir |&-isystem $incdir/../../include |' \
+    -e 's|$libdir |&-L$libdir/../../lib |'
+
+./configure \
+    --bindir=/usr/bin \
+    --prefix=/usr/musl \
+    --syslibdir=/usr/musl/lib \
+    --enable-wrapper=gcc \
+# Uncomment if using valgrind or similar.
+#   --enable-debug
+
+make
+make DESTDIR="$1" install
+
+# Fix incorrect symlink to libc.so.
+ln -sf libc.so "$1/usr/musl/lib/ld-musl-x86_64.so.1"
+
+# Install BSD compatibility headers.
+install -Dm 755 cdefs.h "$1/usr/musl/include/sys/cdefs.h"
+install -Dm 755 queue.h "$1/usr/musl/include/sys/queue.h"
+install -Dm 755 tree.h  "$1/usr/musl/include/sys/tree.h"
