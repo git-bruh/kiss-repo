@@ -1,0 +1,10 @@
+glib
+libX11
+libXau
+libXext
+libXi
+libXtst
+libffi
+libxcb
+nobus    make
+zlib

@@ -1,0 +1,11 @@
+at-spi2-core
+atk
+glib
+libX11
+libXau
+libffi
+libxcb
+libxml2
+meson   make
+nobus   make
+samurai make
