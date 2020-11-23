@@ -1,0 +1,3 @@
+[submodule "kiss-fonts"]
+	path = kiss-fonts
+	url = https://github.com/Himmalerin/kiss-fonts

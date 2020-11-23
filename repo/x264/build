@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+patch -p1 < x264-no-bash.patch
+
+sed 's/$CC $CFLAGS conftest.c/$CC $CFLAGS -ffat-lto-objects conftest.c/g' \
+    -i configure
+
+./configure \
+    --prefix=/usr \
+    --disable-swscale \
+    --enable-static \
+    --enable-pic \
+    --enable-shared
+
+make
+make DESTDIR="$1" install
