@@ -13,3 +13,5 @@ cmake -B build \
 
 cmake --build   build
 cmake --install build
+
+ln -sf ld.lld "$1/usr/bin/ld"
