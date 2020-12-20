@@ -1,2 +1,1 @@
-#!/bin/sh
-exec cc -std=c99 "$@"
+../../../kiss-repo/core/gcc/files/c99

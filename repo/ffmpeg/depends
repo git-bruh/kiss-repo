@@ -1,15 +1,1 @@
-alsa-lib
-lame
-libass
-libogg
-libressl
-libvorbis
-libvpx
-libwebp
-linux-headers make
-nasm          make
-opus
-pkgconf make
-x264
-x265
-xvidcore
+../../kiss-repo/extra/ffmpeg/depends

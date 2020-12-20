@@ -1,5 +1,1 @@
-bzip2
-expat
-libffi
-sqlite
-zlib
+../../kiss-repo/extra/python/depends
