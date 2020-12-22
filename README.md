@@ -1,5 +1,7 @@
 # kiss-repo
 
+This repo mostly contains packages from the now archived KISS [optim](https://git.ebc.li/kiss/optim) repo.
+
 Create a symlink at the top level of this git repo pointing to your main KISS repository:
 ```sh
 cd path/to/kiss-repo
