@@ -1,6 +1,6 @@
 # kiss-repo
 
-This repo mostly contains packages from the now archived KISS [optim](https://git.ebc.li/kiss/optim) repo.
+This repo mostly contains forked packages from the now archived KISS [optim](https://git.ebc.li/kiss/optim) repo.
 
 ## Usage
 Create a symlink at the top level of this git repo pointing to your main KISS repository:
