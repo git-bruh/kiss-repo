@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
 patch -p1 < rootless_modesetting.patch
+
 ./configure \
     --prefix=/usr \
     --localstatedir=/var \
