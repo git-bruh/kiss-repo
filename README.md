@@ -1,6 +1,5 @@
 # kiss-repo
 
-## Usage
 Create a symlink at the top level of this git repo pointing to your main KISS repository:
 ```sh
 cd path/to/kiss-repo
