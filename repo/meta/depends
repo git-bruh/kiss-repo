@@ -4,7 +4,6 @@ alsa-utils
 bat
 btrfs-progs
 cantarell-fonts
-cmus
 dhcpcd
 dmenu
 duf
@@ -13,15 +12,12 @@ dwm
 exa
 firefox
 font-awesome-ttf
-fzf
 gnupg2
 htop
-libarchive
 linux-firmware
 lxappearance
 micro
 nvidia
-openvpn
 pulseaudio
 scrot
 shellcheck-bin
@@ -32,5 +28,4 @@ wpa_supplicant
 xclip
 xf86-input-libinput
 xinit
-xwallpaper
 youtube-dl
