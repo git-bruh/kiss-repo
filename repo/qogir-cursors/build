@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+install -d "$1/usr/share/icons"
+cp -a src/cursors/dist-dark "$1/usr/share/icons/Qogir-white-cursors"
