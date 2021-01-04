@@ -1,0 +1,5 @@
+python
+python-appdirs
+python-distlib
+python-filelock
+python-six
