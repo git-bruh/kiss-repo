@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+install -d "$1/usr/share/themes"
+
+ar x ./*.deb
+tar xf data.tar.xz
+
+cp -r "usr/share/themes/Arc-Dark" "$1/usr/share/themes"
