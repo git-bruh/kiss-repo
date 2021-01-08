@@ -54,13 +54,12 @@ Usage:
 
     with open(log, "r") as f:
         for line in f:
-            if len(line) > 1:
-                line = line.split()
+            line = line.split()
 
-                pkg = line[0]
-                version = " ".join(line[1:])
+            pkg = line[0]
+            version = " ".join(line[1:])
 
-                pkg_dict[pkg] = version
+            pkg_dict[pkg] = version
 
     repo_ = run(f"cd {repo} && git config --get remote.origin.url")
 
