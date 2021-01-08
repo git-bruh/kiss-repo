@@ -31,7 +31,12 @@ def get_maintainer(pkg, author_dict, repo, repo_):
     content = urllib.request.urlopen(content)
     content = json.loads(content.read())
 
-    maintainer = content["author"]["login"]
+    maintainer = content["author"]
+
+    if maintainer:
+        maintainer = maintainer["login"]
+    else:
+        maintainer = author
 
     author_dict[author] = maintainer
 
