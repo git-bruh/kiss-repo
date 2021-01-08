@@ -1,0 +1,3 @@
+#!/bin/sh -e
+
+install -Dm755 kiss-outdated-issue -t "$1/usr/bin"

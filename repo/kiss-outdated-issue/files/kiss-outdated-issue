@@ -1,0 +1,82 @@
+#!/usr/bin/env python3
+# Generate a Github issue for outdated packages in a KISS repository.
+
+import json
+import urllib.request
+import subprocess
+import sys
+
+
+def run(cmd):
+    output = subprocess.Popen(
+        cmd, stdout=subprocess.PIPE, shell=True
+    ).communicate()[0]
+
+    return output.decode("utf-8")
+
+
+def get_maintainer(pkg, author_dict, repo, repo_):
+    git_cmd = f"cd {repo} && git log -n1 {pkg}/version | head -n2"
+    git_log = run(git_cmd).split()
+
+    commit = git_log[1]
+    author = " ".join(git_log[2:])
+
+    if author in author_dict.keys():
+        return author_dict[author]
+
+    api_url = f"https://api.github.com/repos/{repo_}/commits/{commit}"
+
+    content = urllib.request.Request(api_url)
+    content = urllib.request.urlopen(content)
+    content = json.loads(content.read())
+
+    maintainer = content["author"]["login"]
+
+    author_dict[author] = maintainer
+
+    return maintainer
+
+
+def main():
+    try:
+        log = sys.argv[1]
+        repo = sys.argv[2]
+    except IndexError:
+        print("""\
+Usage:
+    kiss-outdated ./path/to/repo > ./outdated
+    kiss-outdated-issue ./outdated ./path/to/repo\
+        """)
+        exit()
+
+    pkg_dict, author_dict = {}, {}
+
+    with open(log, "r") as f:
+        for line in f:
+            if len(line) > 1:
+                line = line.split()
+
+                pkg = line[0]
+                version = " ".join(line[1:])
+
+                pkg_dict[pkg] = version
+
+    repo_ = run(f"cd {repo} && git config --get remote.origin.url")
+
+    if "@" in repo_:
+        repo_ = repo_.split(":")[-1]
+    else:
+        repo_ = repo_.replace(
+            "https://github.com/", ""
+        ).replace(".git", "")
+
+    repo_ = repo_.replace("\n", "")
+
+    for pkg in pkg_dict.keys():
+        maintainer = get_maintainer(pkg, author_dict, repo, repo_)
+        print(f"@{maintainer}\n- [ ] {pkg} {pkg_dict[pkg]}\n")
+
+
+if __name__ == "__main__":
+    main()
