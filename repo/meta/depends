@@ -1,6 +1,5 @@
 alacritty
 alsa-plugins
-alsa-utils
 arc-dark-gtk-theme
 bat
 btrfs-progs
@@ -17,7 +16,6 @@ font-awesome-ttf
 github-cli
 gnupg2
 gomuks
-htop
 linux-firmware
 micro
 nvidia
