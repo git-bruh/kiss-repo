@@ -39,10 +39,13 @@ meson \
     --localstatedir=/var \
     --buildtype=release \
     -Dplatforms=x11 \
+    -Dglvnd=true \
     -Dgallium-drivers="" \
     -Dvulkan-drivers="" \
+    -Dgles1=disabled \
+    -Dgles2=disabled \
     -Dzstd=disabled \
-    -Dglvnd=true \
+    -Degl=disabled \
     . output
 
 ninja -C output
