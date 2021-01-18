@@ -38,7 +38,7 @@ meson \
     --mandir=/usr/share/man \
     --localstatedir=/var \
     --buildtype=release \
-    -Dplatforms=drm,x11 \
+    -Dplatforms=x11 \
     -Dgallium-drivers="" \
     -Dvulkan-drivers="" \
     -Dzstd=disabled \
