@@ -1,11 +1,15 @@
 #!/bin/sh -e
 
-export CFLAGS="$CFLAGS -D_DEFAULT_SOURCE"
+export LDFLAGS="$LDFLAGS -static"
 
 ./configure \
     --prefix=/usr \
+    --disable-double-bracket \
+    --disable-dirstack \
     --disable-socket \
-    --disable-lineedit
+    --disable-array \
+    --enable-lineedit \
+    --with-term-lib="curses terminfo"
 
 make
 make DESTDIR="$1" install
