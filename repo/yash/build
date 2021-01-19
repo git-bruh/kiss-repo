@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+export CFLAGS="$CFLAGS -D_DEFAULT_SOURCE"
+
+./configure \
+    --prefix=/usr \
+    --disable-socket \
+    --disable-lineedit
+
+make
+make DESTDIR="$1" install
+
+ln -s yash "$1/usr/bin/sh"
