@@ -1,0 +1,9 @@
+#!/bin/sh -e
+
+go build ./cmd/dendrite-monolith-server
+go build ./cmd/generate-config
+go build ./cmd/generate-keys
+
+install -Dm755 ./dendrite-monolith-server           "$1/usr/bin/dendrite"
+install -Dm755 ./generate-config                    "$1/usr/bin/dendrite-generate-config"
+install -Dm755 ./generate-keys                      "$1/usr/bin/dendrite-generate-keys"
