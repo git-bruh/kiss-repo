@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+tar xf /mnt/subvolumes/pacman/pkg/iso-codes-4.5.0-1-any.pkg.tar.zst
+
+mv usr "$1/usr"

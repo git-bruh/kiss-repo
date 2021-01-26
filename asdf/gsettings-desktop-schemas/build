@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+tar xf /mnt/kiss/sources/gsettings-desktop-schemas/gsettings-desktop-schemas-3.38.0-1-any.pkg.tar.zst
+
+mv usr "$1/usr"

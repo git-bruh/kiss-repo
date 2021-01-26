@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+meson \
+    --prefix=/usr \
+    -Dvapi=false \
+    -Dgcrypt=false \
+    -Dgtk_doc=false \
+    -Dmanpage=false \
+    -Dintrospection=false \
+    . output
+
+ninja -C output
+ninja -C output install

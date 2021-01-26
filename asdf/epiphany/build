@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+patch -p1 < no-gettext.patch
+
+export DESTDIR="$1"
+
+meson \
+    --prefix=/usr \
+    . output
+
+ninja -C output
+ninja -C output install
