@@ -1,5 +1,4 @@
 alacritty
-alsa-plugins
 arc-dark-gtk-theme
 bat
 btrfs-progs
@@ -22,7 +21,6 @@ mandoc
 micro
 nvidia
 openssh
-pulseaudio
 python-virtualenv
 qogir-cursors
 rbw
