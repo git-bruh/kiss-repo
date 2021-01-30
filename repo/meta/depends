@@ -1,9 +1,12 @@
 alacritty
+alsa-utils
 arc-dark-gtk-theme
 bat
+bison
 btrfs-progs
 bubblewrap
 cantarell-fonts
+ccache
 chromium
 dhcpcd
 dmenu
@@ -16,12 +19,12 @@ github-cli
 gnupg2
 gomuks
 gtar
+kmod
 linux-firmware
 mandoc
 micro
 nvidia
 openssh
-python-virtualenv
 qogir-cursors
 rbw
 scrot
@@ -34,3 +37,4 @@ wpa_supplicant
 xclip
 xf86-input-libinput
 yash
+youtube-dl
