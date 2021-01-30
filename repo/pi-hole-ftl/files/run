@@ -1,0 +1,3 @@
+#!/bin/sh
+
+exec /usr/bin/pihole-FTL no-daemon

@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+patch -p1 < version.patch
+
+export DESTDIR="$1"
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr
+
+cmake --build   build
+cmake --install build
+
+install -Dm755 run              "$1/etc/sv/pi-hole-ftl/run"
+install -Dm644 pi-hole-ftl.conf "$1/etc/pihole/pihole-FTL.conf"
+
+ln -sf /run/runit/supervise.pi-hole-ftl "$1/etc/sv/pi-hole-ftl/supervise"

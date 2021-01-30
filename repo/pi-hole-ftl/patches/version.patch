@@ -1,0 +1,21 @@
+diff --git a/src/version.h.in b/src/version.h.in
+index e9cd74f..9b4568c 100644
+--- a/src/version.h.in
++++ b/src/version.h.in
+@@ -1,11 +1,11 @@
+ #ifndef VERSION_H
+ #define VERSION_H
+ 
+-#define GIT_VERSION "@GIT_VERSION@"
+-#define GIT_DATE "@GIT_DATE@"
+-#define GIT_BRANCH "@GIT_BRANCH@"
+-#define GIT_TAG "@GIT_TAG@"
+-#define GIT_HASH "@GIT_HASH@"
++#define GIT_VERSION "v5.6"
++#define GIT_DATE "2021-01-27"
++#define GIT_BRANCH "master"
++#define GIT_TAG "v5.6"
++#define GIT_HASH "builtfromreleasetarball"
+ #define FTL_ARCH "@FTL_ARCH@"
+ #define FTL_CC "@FTL_CC@"
+ 
