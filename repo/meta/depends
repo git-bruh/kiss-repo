@@ -1,6 +1,7 @@
 alacritty
 alsa-utils
 arc-dark-gtk-theme
+axel
 bat
 bison
 btrfs-progs
@@ -18,7 +19,7 @@ font-awesome-ttf
 github-cli
 gnupg2
 gomuks
-gtar
+htop
 kmod
 linux-firmware
 mandoc
