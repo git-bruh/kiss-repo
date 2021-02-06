@@ -4,7 +4,7 @@
 
 `optim` Packages built with `PGO` or `LTO`.
 
-`overrides` Forked packages, mostly to use `netbsd-curses` instead of `ncurses`
+`overrides` Forked packages, mostly to use `netbsd-curses` instead of `ncurses`.
 
 `repo` *Actually* useful packages:
 * `arc-dark-gtk-theme`: GTK theme.
@@ -36,7 +36,7 @@ cd path/to/kiss-repo
 ln -sf /path/to/main-repo ./kiss-repo
 ```
 
-`optim` `overrides` repos must take precedence over other repos in `KISS_PATH`
+`optim` `overrides` repos must take precedence over other repos in `KISS_PATH`.
 
 [KISS Hook](https://github.com/git-bruh/dotfiles/blob/master/kiss-hook)
 
