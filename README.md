@@ -6,7 +6,27 @@
 
 `overrides` Forked packages, mostly to use `netbsd-curses` instead of `ncurses`
 
-`repo` *Actually* useful packages such as [matrix](https://matrix.org) related packages, `pihole`, `GTK` stuff etc.
+`repo` *Actually* useful packages:
+* `arc-dark-gtk-theme`: GTK theme.
+
+* `axel`: Download accelerator.
+
+* `cproc`: Compiler.
+
+* `dendrite`: [Matrix](https://matrix.org) homeserver.
+
+* `gomuks`: [Matrix](https://matrix.org) client.
+
+* `netbsd-curses`: Curses library.
+
+* `pi-hole`: DNS-level blocker.
+
+* `qogir-cursors`: GTK cursor.
+
+* `slstatus`: Status monitor.
+
+* `yash`: Shell.
+
 
 ## Usage
 
