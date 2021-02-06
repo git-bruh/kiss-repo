@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-export LDFLAGS="$LDFLAGS -static"
-
 ./configure \
     --prefix=/usr \
     --disable-double-bracket \
