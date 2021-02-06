@@ -23,7 +23,6 @@ htop
 kmod
 linux-firmware
 mandoc
-micro
 nvidia
 openssh
 qogir-cursors
@@ -34,6 +33,7 @@ slstatus
 ssu
 ttf-jetbrains-mono
 twemoji-color-font
+vis
 wpa_supplicant
 xclip
 xf86-input-libinput
