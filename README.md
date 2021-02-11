@@ -30,10 +30,12 @@
 
 ## Usage
 
-Create a symlink at the top level of this git repo pointing to your main KISS repository:
+Create a symlink at the top level of this git repo pointing to your KISS repositories:
 ```sh
-cd path/to/kiss-repo
-ln -sf /path/to/main-repo ./kiss-repo
+cd /path/to/kiss-repo
+
+ln -sf /path/to/main-repo      ./kiss-repo
+ln -sf /path/to/community-repo ./kiss-community
 ```
 
 `optim` `overrides` repos must take precedence over other repos in `KISS_PATH`.

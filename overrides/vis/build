@@ -1,9 +1,1 @@
-#!/bin/sh -e
-
-./configure \
-	--prefix=/usr \
-	--enable-lua \
-	--enable-lpeg-static
-
-make
-make DESTDIR="$1" install
+../../kiss-community/community/vis/build
