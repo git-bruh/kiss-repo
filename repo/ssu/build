@@ -1,4 +1,0 @@
-#!/bin/sh -e
-
-make
-install -Dm755 ssu "$1/usr/bin/ssu"
