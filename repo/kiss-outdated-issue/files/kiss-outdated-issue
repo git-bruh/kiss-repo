@@ -73,9 +73,9 @@ Usage:
     else:
         repo_ = repo_.replace(
             "https://github.com/", ""
-        ).replace(".git", "")
+        )
 
-    repo_ = repo_.replace("\n", "")
+    repo_ = repo_.replace(".git", "").replace("\n", "")
 
     for pkg in pkg_dict.keys():
         maintainer = get_maintainer(pkg, author_dict, repo, repo_)
