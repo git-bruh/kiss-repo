@@ -25,6 +25,8 @@
 
 * `slstatus`: Status monitor.
 
+* `stagit`: Static site generator for `git` repos.
+
 * `yash`: Shell.
 
 
