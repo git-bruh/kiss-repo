@@ -1,6 +1,6 @@
 #!/bin/sh -eu
 
-. /etc/stagit.conf
+. /etc/stagit/stagit.conf
 
 e_log() {
     printf '%s
@@ -33,9 +33,11 @@ else
 fi
 
 git init --bare "$GIT_HOME/$REPO.git"
-ln -sf "$GIT_HOME/template/post-receive" "$GIT_HOME/$REPO.git/hooks/post-receive"
+ln -sf "/etc/stagit/post-receive" "$GIT_HOME/$REPO.git/hooks/post-receive"
 echo "$CLONE_URI/$REPO.git" > "$GIT_HOME/$REPO.git/url"
 echo "$DEFAULT_OWNER" > "$GIT_HOME/$REPO.git/owner"
+
+:> "$GIT_HOME/$REPO.git/git-daemon-export-ok"
 
 if [ -n "$DESC" ]; then
         echo "$DESC" > "$GIT_HOME/$REPO.git/description"

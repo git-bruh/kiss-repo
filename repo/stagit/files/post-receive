@@ -1,6 +1,6 @@
 #!/bin/sh -euf
 
-. /etc/stagit.conf
+. /etc/stagit/stagit.conf
 
 src="$(pwd)"
 name=$(basename "$src")
@@ -13,5 +13,7 @@ echo "[stagit] building $dst"
 
 echo "[stagit] linking $dst"
 ln -sf log.html index.html
-ln -sf ../style.css style.css
-ln -sf ../logo.png logo.png
+
+for file in style.css logo.png favicon.ico; do
+    ln -sf "../$file" "$file"
+done
