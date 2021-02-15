@@ -14,6 +14,6 @@ echo "[stagit] building $dst"
 echo "[stagit] linking $dst"
 ln -sf log.html index.html
 
-for file in style.css logo.png favicon.ico; do
+for file in style.css logo.png; do
     ln -sf "../$file" "$file"
 done
