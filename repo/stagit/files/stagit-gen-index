@@ -1,0 +1,5 @@
+#!/bin/sh -eu
+
+. /etc/stagit.conf
+
+stagit-index "$GIT_HOME"/*.git > "$WWW_HOME/index.html"
