@@ -30,6 +30,14 @@
 
 * `yash`: Shell.
 
+`python` Python cruft:
+
+* `python-markdown`: Markdown.
+
+* `python-pygments`: Syntax highlighter (used in `stagit`).
+
+* `python-pymdown-extensions`: Markdown extensions.
+
 
 ## Usage
 

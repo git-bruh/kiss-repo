@@ -1,1 +1,4 @@
 libgit2
+python-markdown
+python-pygments
+python-pymdown-extensions
