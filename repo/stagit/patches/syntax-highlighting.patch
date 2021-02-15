@@ -1,0 +1,150 @@
+diff --git a/stagit-highlight b/stagit-highlight
+new file mode 100755
+index 0000000..fecb4c9
+--- /dev/null
++++ b/stagit-highlight
+@@ -0,0 +1,58 @@
++#!/usr/bin/env python3
++
++import pygments
++from pygments import highlight
++from pygments.formatters import HtmlFormatter
++from pygments.lexers import guess_lexer, guess_lexer_for_filename
++
++from sys import stdin, stderr
++
++filename = stdin.readline().strip()
++contents = stdin.read()
++
++lexer = None
++
++try:
++    lexer = guess_lexer_for_filename(filename, contents)
++except pygments.util.ClassNotFound:
++    try:
++        lexer = guess_lexer(contents)
++    except pygments.util.ClassNotFound:
++        pass
++
++if not lexer:
++    from pygments.lexers import TextLexer
++    lexer = TextLexer()
++
++rendered = None
++if lexer.__class__ is pygments.lexers.MarkdownLexer:
++    from markdown import markdown
++    rendered = markdown(contents, extensions=[
++        'codehilite',
++        'extra',
++        'sane_lists',
++        'smarty',
++        'pymdownx.tasklist'
++    ])
++
++FORMAT = HtmlFormatter(
++    style='murphy',
++    cssclass='highlight',
++    linenos='table',
++    lineanchors='loc',
++    anchorlinenos=True)
++
++if rendered:
++    print('<article class="markup markdown">')
++    print(rendered)
++    print('</article>')
++print('<div id="blob">')
++print(highlight(contents, lexer, FORMAT))
++print('</div>')
++print('<style>')
++print(FORMAT.get_style_defs(''))
++print('</style>')
++
++print("Filename: {}; Lexer: {}.".format(filename, lexer), file=stderr)
++if rendered:
++    print("Markdown was rendered in addition.", file=stderr)
+diff --git a/stagit.c b/stagit.c
+index d9e80a1..64e0494 100644
+--- a/stagit.c
++++ b/stagit.c
+@@ -500,35 +500,50 @@ writefooter(FILE *fp)
+ }
+ 
+ int
+-writeblobhtml(FILE *fp, const git_blob *blob)
++syntax_highlight(const char *filename, FILE *fp, const char *s, size_t len)
+ {
+-	size_t n = 0, i, prev;
+-	const char *nfmt = "<a href=\"#l%d\" class=\"line\" id=\"l%d\">%7d</a> ";
++	// Flush HTML-file
++	fflush(fp);
++	// Copy STDOUT
++	int stdout_copy = dup(1);
++	// Redirect STDOUT
++	dup2(fileno(fp), 1);
++
++	// Python Pygments script for syntax highlighting.
++	FILE *child = popen("/usr/bin/stagit-highlight", "w");
++	if (child == NULL) {
++		printf("child is null: %s", strerror(errno));
++		exit(1);
++	}
++	// Give filename through STDIN:
++	fprintf(child, "%s\n", filename);
++	// Give code to highlight through STDIN:
++	int lc;
++	size_t i;
++	for (i = 0; *s && i < len; s++, i++) {
++	    if (*s == '\n') lc++;
++		fprintf(child, "%c", *s);
++	}
++
++	pclose(child);
++	fflush(stdout);
++	// Give back STDOUT.
++	dup2(stdout_copy, 1);
++	return lc;
++}
++
++int
++writeblobhtml(const char *filename, FILE *fp, const git_blob *blob)
++{
++	int lc = 0;
+ 	const char *s = git_blob_rawcontent(blob);
+ 	git_off_t len = git_blob_rawsize(blob);
+ 
+-	fputs("<pre id=\"blob\">\n", fp);
+-
+ 	if (len > 0) {
+-		for (i = 0, prev = 0; i < (size_t)len; i++) {
+-			if (s[i] != '\n')
+-				continue;
+-			n++;
+-			fprintf(fp, nfmt, n, n, n);
+-			xmlencode(fp, &s[prev], i - prev + 1);
+-			prev = i + 1;
+-		}
+-		/* trailing data */
+-		if ((len - prev) > 0) {
+-			n++;
+-			fprintf(fp, nfmt, n, n, n);
+-			xmlencode(fp, &s[prev], len - prev);
+-		}
++		lc = syntax_highlight(filename, fp, s, len);
+ 	}
+ 
+-	fputs("</pre>\n", fp);
+-
+-	return n;
++	return lc;
+ }
+ 
+ void
+@@ -914,7 +929,7 @@ writeblob(git_object *obj, const char *fpath, const char *filename, git_off_t fi
+ 	if (git_blob_is_binary((git_blob *)obj)) {
+ 		fputs("<p>Binary file.</p>\n", fp);
+ 	} else {
+-		lc = writeblobhtml(fp, (git_blob *)obj);
++		lc = writeblobhtml(filename, fp, (git_blob *)obj);
+ 		if (ferror(fp))
+ 			err(1, "fwrite");
+ 	}

@@ -1,10 +1,12 @@
 #!/bin/sh -e
 
+patch -p1 < syntax-highlighting.patch
+
 make
 make DESTDIR="$1" PREFIX="/usr" MANPREFIX="/usr/share/man" install
 
 install -Dm644 stagit.conf "$1/etc/stagit.conf"
 
-for script in stagit-gen-index stagit-new-repo; do
+for script in stagit-gen-index stagit-highlight stagit-new-repo; do
     install -Dm755 "$script" "$1/usr/bin/$script"
 done

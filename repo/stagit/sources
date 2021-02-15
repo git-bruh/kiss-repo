@@ -3,3 +3,4 @@ files/post-receive
 files/stagit-gen-index
 files/stagit-new-repo
 files/stagit.conf
+patches/syntax-highlighting.patch
