@@ -1,4 +1,3 @@
-alacritty
 alsa-utils
 arc-dark-gtk-theme
 axel
@@ -23,6 +22,7 @@ kmod
 linux-firmware
 mandoc
 nvidia
+oksh
 openssh
 qogir-cursors
 rbw
@@ -30,10 +30,9 @@ scrot
 shellcheck-bin
 slstatus
 ssu
+st
 ttf-jetbrains-mono
 twemoji-color-font
 wpa_supplicant
 xclip
 xf86-input-libinput
-yash
-youtube-dl
