@@ -1,0 +1,22 @@
+diff --git a/browser.c b/browser.c
+index ebab7fb..d2c4cde 100644
+--- a/browser.c
++++ b/browser.c
+@@ -875,15 +875,10 @@ key_common(GtkWidget *widget, GdkEvent *event, gpointer data)
+         {
+             switch (((GdkEventKey *)event)->keyval)
+             {
+-                case GDK_KEY_q:  /* close window (left hand) */
++                case GDK_KEY_w:  /* close window (left hand) */
+                     client_destroy(NULL, c);
+                     return TRUE;
+-                case GDK_KEY_w:  /* home (left hand) */
+-                    f = ensure_uri_scheme(home_uri);
+-                    webkit_web_view_load_uri(WEBKIT_WEB_VIEW(c->web_view), f);
+-                    g_free(f);
+-                    return TRUE;
+-                case GDK_KEY_e:  /* new tab (left hand) */
++                case GDK_KEY_t:  /* new tab (left hand) */
+                     f = ensure_uri_scheme(home_uri);
+                     client_new(f, NULL, TRUE, TRUE);
+                     g_free(f);

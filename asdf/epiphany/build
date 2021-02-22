@@ -1,6 +1,8 @@
 #!/bin/sh -e
 
-patch -p1 < no-gettext.patch
+for patch in *.patch; do
+    patch -p1 < "$patch"
+done
 
 export DESTDIR="$1"
 

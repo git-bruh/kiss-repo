@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+for patch in *.patch; do
+    patch -p1 < "$patch"
+done
+
+sed -i 's/GDK_MOD1_MASK/GDK_CONTROL_MASK/g' browser.c
+
+make
+make DESTDIR="$1" prefix=/usr install

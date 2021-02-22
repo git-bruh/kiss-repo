@@ -4,8 +4,6 @@ export DESTDIR="$1"
 
 meson \
     --prefix=/usr \
-    -Dwith_vapi=false \
-    -Dwith_introspection=false \
     . output
 
 ninja -C output

@@ -1,5 +1,11 @@
 #!/bin/sh -e
 
-tar xf /mnt/kiss/sources/gsettings-desktop-schemas/gsettings-desktop-schemas-3.38.0-1-any.pkg.tar.zst
+export DESTDIR="$1"
 
-mv usr "$1/usr"
+meson \
+    --prefix=/usr \
+    -Dintrospection=false \
+    . output
+
+ninja -C output
+ninja -C output install
