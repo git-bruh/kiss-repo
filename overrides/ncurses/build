@@ -1,9 +1,11 @@
 #!/bin/sh
 
 make \
+    LDFLAGS="$LDFLAGS -static" \
     DESTDIR="$1" \
     PREFIX=/usr \
-    install
+    all-static \
+    install-static
 
 # ncurses-compatible script
 install -Dm755 ncurses5-config "$1/usr/bin/ncurses5-config"

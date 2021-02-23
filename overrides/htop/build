@@ -3,6 +3,8 @@
 # Fix build with GCC 10.
 export CFLAGS="$CFLAGS -fcommon"
 
+sed -i 's/-l.curses/& -lterminfo/' configure
+
 ./configure \
     --prefix=/usr \
     --sysconfdir=/etc \

@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+sed -i 's/-l.curses/& -lterminfo/' configure
+
+# We have an alternative system, use "ksh" and "sh" as binary names. 
+./configure \
+    --prefix=/usr \
+    --bindir=/usr/bin \
+    --mandir=/usr/share/man \
+    --enable-ksh \
+    --enable-sh
+
+make
+make DESTDIR="$1" install
