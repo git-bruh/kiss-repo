@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --enable-static-libc
+
+make
+make DESTDIR="$1" install
+
+# Install the config file
+install -Dm644 mdev.conf "$1/etc/mdev.conf"
