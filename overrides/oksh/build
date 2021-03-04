@@ -7,8 +7,9 @@ sed -i 's/-l.curses/& -lterminfo/' configure
     --prefix=/usr \
     --bindir=/usr/bin \
     --mandir=/usr/share/man \
+    --enable-sh \
     --enable-ksh \
-    --enable-sh
+    --enable-lto
 
 make
 make DESTDIR="$1" install
