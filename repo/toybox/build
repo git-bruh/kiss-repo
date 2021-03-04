@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+patch -p1 < POSIX.patch
+
+make
+make PREFIX="$1/usr/bin" install_flat
+
+chmod +s "$1/usr/bin/toybox"
