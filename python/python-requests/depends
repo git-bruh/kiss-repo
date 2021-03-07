@@ -1,0 +1,5 @@
+python
+python-certifi
+python-chardet
+python-idna
+python-urllib3
