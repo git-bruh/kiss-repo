@@ -322,7 +322,7 @@ index 5eb43aa..a210d66 100644
  int (*RunGTest)(int*, char**) = 0;
  
 diff --git a/toolkit/xre/nsGDKErrorHandler.cpp b/toolkit/xre/nsGDKErrorHandler.cpp
-index 421abdf..1a769bd 100644
+index 421abdf..3cd8789 100644
 --- a/toolkit/xre/nsGDKErrorHandler.cpp
 +++ b/toolkit/xre/nsGDKErrorHandler.cpp
 @@ -6,14 +6,21 @@
@@ -355,16 +355,16 @@ index 421abdf..1a769bd 100644
    if (strstr(message, "X Window System error")) {
      XErrorEvent event;
      nsDependentCString buffer(message);
-@@ -92,10 +100,12 @@ static void GdkErrorHandler(const gchar* log_domain, GLogLevelFlags log_level,
+@@ -92,10 +100,13 @@ static void GdkErrorHandler(const gchar* log_domain, GLogLevelFlags log_level,
      event.resourceid = 0;
  
      X11Error(event.display, &event);
 -  } else {
 -    g_log_default_handler(log_domain, log_level, message, user_data);
 -    MOZ_CRASH_UNSAFE(message);
--  }
 +
 +    return;
+   }
 +#endif
 +
 +g_log_default_handler(log_domain, log_level, message, user_data);
@@ -372,7 +372,7 @@ index 421abdf..1a769bd 100644
  }
  
  void InstallGdkErrorHandler() {
-@@ -103,7 +113,9 @@ void InstallGdkErrorHandler() {
+@@ -103,7 +114,9 @@ void InstallGdkErrorHandler() {
                      (GLogLevelFlags)(G_LOG_LEVEL_ERROR | G_LOG_FLAG_FATAL |
                                       G_LOG_FLAG_RECURSION),
                      GdkErrorHandler, nullptr);
@@ -402,6 +402,19 @@ index e8f7b67..5549e40 100644
  
  NS_IMETHODIMP
  nsNativeAppSupportUnix::Start(bool* aRetVal) {
+diff --git a/widget/CompositorWidget.h b/widget/CompositorWidget.h
+index 08d84f8..3dc76c4 100644
+--- a/widget/CompositorWidget.h
++++ b/widget/CompositorWidget.h
+@@ -63,7 +63,7 @@ class CompositorWidgetDelegate {
+ };
+ 
+ // Platforms that support out-of-process widgets.
+-#if defined(XP_WIN) || defined(MOZ_X11)
++#if defined(XP_WIN) || defined(MOZ_X11) || defined(MOZ_WAYLAND)
+ // CompositorWidgetParent should implement CompositorWidget and
+ // PCompositorWidgetParent.
+ class CompositorWidgetParent;
 diff --git a/widget/GfxInfoX11.cpp b/widget/GfxInfoX11.cpp
 index fa4b1b4..ce2b77e 100644
 --- a/widget/GfxInfoX11.cpp
