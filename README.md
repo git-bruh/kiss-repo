@@ -38,4 +38,6 @@ Personal KISS repository.
 
 * `swaybg`: Wallpaper tool for Wayland compositors.
 
+* `wl-clipboard`: Command-line copy/paste utilities for Wayland.
+
 * `wlroots`: Modular Wayland compositor library (Fork with `eglstreams` backend for NVIDIA).
