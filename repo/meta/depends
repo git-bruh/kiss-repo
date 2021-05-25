@@ -1,9 +1,9 @@
 alsa-utils
 axel
+bemenu
 btrfs-progs
 bubblewrap
 cantarell-fonts
-chroma-bin
 chromium
 cmus
 dhcpcd
@@ -16,11 +16,12 @@ gdb
 github-cli
 gnupg2
 gomuks
+grim
 htop
 jq
 lagrange
 less
-links2
+libsixel
 linux-firmware
 man-pages
 man-pages-posix
@@ -32,6 +33,7 @@ qogir-cursors
 rbw-bin
 samurai
 shellcheck-bin
+slurp
 ssu
 strace
 sway
