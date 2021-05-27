@@ -15,6 +15,8 @@ libgcrypt
 libjpeg-turbo
 libwebp
 libxkbcommon
+libxml2
+libxslt
 mesa
 nodejs             make
 nss
@@ -26,4 +28,3 @@ python2            make
 samurai            make
 wayland
 wayland-protocols  make
-zlib
