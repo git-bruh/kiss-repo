@@ -1,0 +1,6 @@
+glib
+libepoxy
+libwpe
+meson             make
+wayland
+wayland-protocols make
