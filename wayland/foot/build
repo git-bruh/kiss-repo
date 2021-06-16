@@ -6,8 +6,8 @@ sed -i "s|subdir('doc')||" meson.build
 
 meson \
     --prefix=/usr \
-    -Dterminfo=disabled \
     -Db_lto=true \
+    -Dterminfo=disabled \
     . output
 
 ninja -C output

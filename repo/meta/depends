@@ -5,7 +5,6 @@ btrfs-progs
 bubblewrap
 cantarell-fonts
 chroma-bin
-chromium
 clang
 cmark-gfm
 cmus
@@ -14,6 +13,7 @@ dhcpcd
 dnscrypt-proxy
 dracula-gtk-theme
 file
+firefox
 font-awesome-ttf
 foot
 gdb
@@ -47,7 +47,6 @@ sway
 ttf-jetbrains-mono
 twemoji-color-font
 vis
-wf-recorder
 wl-clipboard
 wpa_supplicant
 youtube-dl
