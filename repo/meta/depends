@@ -1,5 +1,6 @@
 alsa-utils
 axel
+badwolf
 bemenu
 btrfs-progs
 bubblewrap
@@ -13,7 +14,6 @@ dhcpcd
 dnscrypt-proxy
 dracula-gtk-theme
 file
-firefox
 font-awesome-ttf
 foot
 gdb
@@ -26,9 +26,8 @@ htop
 jq
 lagrange
 less
-libsixel
+links2
 linux-firmware
-lld
 man-pages
 man-pages-posix
 mandoc
@@ -47,6 +46,7 @@ sway
 ttf-jetbrains-mono
 twemoji-color-font
 vis
+wf-recorder
 wl-clipboard
 wpa_supplicant
 youtube-dl
