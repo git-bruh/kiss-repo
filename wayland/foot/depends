@@ -4,6 +4,7 @@ freetype-harfbuzz
 libxkbcommon
 linux-headers     make
 meson             make
+ncurses           make
 pixman
 pkgconf           make
 python            make
