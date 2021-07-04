@@ -1,0 +1,4 @@
+glibc
+gmp
+ncurses
+patchelf make

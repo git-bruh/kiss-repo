@@ -1,0 +1,23 @@
+#!/bin/sh -e
+
+:>nostrip # Version information required.
+
+files="
+./utils/haddock/dist/build/tmp/haddock
+./utils/ghc-pkg/dist-install/build/tmp/ghc-pkg
+./libraries/terminfo/dist-install/build/libHSterminfo-*.so
+./libraries/haskeline/dist-install/build/libHShaskeline-*.so
+./ghc/stage2/build/tmp/ghc-stage2
+./compiler/stage2/build/libHSghc-*.so
+"
+
+# KISS merges libterminfo and libcurses.
+for file in $files; do
+    patchelf --replace-needed libtinfo.so.6 libncursesw.so.6 "$file"
+done
+
+./configure \
+    --prefix=/usr \
+    --disable-ld-override
+
+make DESTDIR="$1" install
