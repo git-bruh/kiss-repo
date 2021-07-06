@@ -1,0 +1,13 @@
+bubblewrap
+dhcpcd
+htop
+iptables
+libjpeg-turbo
+libxslt
+micro
+opendoas
+openssh
+postgresql
+rust
+shellcheck-bin
+stagit
