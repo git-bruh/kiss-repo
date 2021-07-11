@@ -1,0 +1,30 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+cmake -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra" \
+    -DLLVM_HOST_TRIPLE="$(cc -dumpmachine)" \
+    -DLLVM_TARGETS_TO_BUILD="host" \
+    -DLLVM_INCLUDE_BENCHMARKS=OFF \
+    -DLLVM_INCLUDE_EXAMPLES=OFF \
+    -DLLVM_INCLUDE_TESTS=OFF \
+    -DLLVM_INCLUDE_DOCS=OFF \
+    -DLLVM_BUILD_LLVM_DYLIB=ON \
+    -DLLVM_LINK_LLVM_DYLIB=ON \
+    -DLLVM_ENABLE_LIBXML2=OFF \
+    -DLLVM_ENABLE_RTTI=ON \
+    -Wno-dev llvm
+
+cmake --build   build
+cmake --install build
+
+# Override libexec, the path is hardcoded, unfortunately.
+mv -f "$1/usr/libexec/ccc-analyzer" "$1/usr/lib/clang"
+mv -f "$1/usr/libexec/c++-analyzer" "$1/usr/lib/clang"
+
+rmdir "$1/usr/libexec"
+
+sed -i "s|libexec|lib/clang|" "$1/usr/bin/scan-build"

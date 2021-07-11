@@ -1,4 +1,0 @@
-#!/bin/sh -e
-
-install -Dm644 -t "$1/usr/include/EGL" interface/*
-install -Dm644 -t "$1/usr/share/pkgconfig" ./*.pc
