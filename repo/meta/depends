@@ -5,7 +5,6 @@ btrfs-progs
 bubblewrap
 cantarell-fonts
 chroma-bin
-clang
 cmark-gfm
 cmus
 compiler-rt
@@ -25,17 +24,13 @@ htop
 jq
 lagrange
 less
-links2
 linux-firmware
 man-pages
-man-pages-posix
 mandoc
 mpv
 nvidia
 openssh
-patch
 qogir-cursors
-rbw-bin
 samurai
 shellcheck-bin
 slurp
