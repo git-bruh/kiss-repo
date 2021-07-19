@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+mkdir -p \
+    "$1/usr/bin" \
+    "$1/usr/lib/jdk"
+
+rm -f jre/*[A-Z]
+mv bin include jre lib "$1/usr/lib/jdk"
+
+for bin in java javac javah javap jar keytool; do
+    ln -s "../lib/jdk/bin/$bin" "$1/usr/bin/$bin"
+done
