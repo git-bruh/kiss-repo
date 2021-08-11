@@ -14,7 +14,7 @@ dnscrypt-proxy
 dracula-gtk-theme
 file
 font-awesome-ttf
-foot
+foot-pgo
 gdb
 github-cli
 glibc
@@ -24,7 +24,6 @@ gomuks
 grim
 htop
 jq
-lagrange
 less
 linux-firmware
 llvm
@@ -33,6 +32,7 @@ mandoc
 mpv
 nvidia
 openssh
+pigz
 qogir-cursors
 rbw-bin
 samurai
