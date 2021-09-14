@@ -1,0 +1,4 @@
+alsa-lib
+dbus
+libudev-zero
+meson make
