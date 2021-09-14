@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+./configure \
+	--prefix=/usr \
+	--libexecdir=/usr/lib \
+	--disable-geoclue \
+	--disable-libportal \
+	--enable-pipewire
+
+make
+make DESTDIR="$1" install

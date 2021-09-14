@@ -16,6 +16,7 @@ export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$PWD/junk/lib/pkgconfig"
 
 meson \
 	--prefix=/usr \
+	--libexecdir=/usr/lib \
 	. output
 
 ninja -C output

@@ -1,0 +1,5 @@
+fuse2
+glib
+json-glib
+meson make
+pipewire

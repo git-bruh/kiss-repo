@@ -4,8 +4,6 @@ export DESTDIR="$1"
 
 meson \
 	--prefix=/usr \
-	--libexecdir=/usr/lib \
-	-Dexamples=disabled \
 	. output
 
 ninja -C output
