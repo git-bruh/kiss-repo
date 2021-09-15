@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --sysconfdir=/etc
+
+make
+make DESTDIR="$1" install
+
+mv -f "$1/etc/alsa/conf.d/99-pulseaudio-default.conf.example" "$1/usr/share/alsa/alsa.conf.d/99-pulseaudio-default.conf" ||:
