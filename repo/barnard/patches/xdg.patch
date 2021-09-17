@@ -1,0 +1,178 @@
+From f76671955d1c7a8afaba7be891c4319fc75939a4 Mon Sep 17 00:00:00 2001
+From: Jonathan Dahan <git@jonathan.is>
+Date: Thu, 31 Dec 2020 13:49:03 -0500
+Subject: [PATCH 1/2] Respect XDG directories
+
+---
+ README.md             |  9 +++++++--
+ barnard-ui            |  8 +++++++-
+ config/user_config.go | 13 ++++---------
+ main.go               | 19 ++++++++++++-------
+ 4 files changed, 30 insertions(+), 19 deletions(-)
+
+diff --git a/README.md b/README.md
+index 74c9dbd..87fb853 100644
+--- a/README.md
++++ b/README.md
+@@ -72,7 +72,7 @@ Our thanks go out to Tim Cooper for the massive amount of work put into this cli
+ 
+ ## Config
+ 
+-By default, the file $HOME/.barnard.yaml will hold the configuration for Barnard.
++By default, the file ${XDG_CONFIG_HOME:-${HOME}/.config}/barnard/config.yaml will hold the configuration for Barnard.
+ You can have barnard read another file by using the -c option, like `./barnard -c ~/.anotherbarnard.yaml`.
+ It will be created automatically if it doesn't exist.
+ If you modify the config file while Barnard is running, your changes may be overwritten.
+@@ -117,7 +117,7 @@ If Jim's volume is set to 0.1, and larry's volume is set to 0.9, lowering the ch
+ 
+ You can change the volume for a user once that user has spoken at least once during a session.
+ Attempts to change the volume of a user who has not spoken will be ignored.
+-If you are unable to hear a user speaking, you can edit the .barnard.yaml file in your home directory, after closing Barnard, and set the volume parameter to 1.0 for a particular user.
++If you are unable to hear a user speaking, you can edit the barnard.yaml file, after closing Barnard, and set the volume parameter to 1.0 for a particular user.
+ 
+ ### Technical
+ 
+@@ -153,6 +153,11 @@ To fetch and build:
+ 
+ After running the command above, `barnard` will be compiled as `$(go env GOPATH)/bin/barnard`.
+ 
++To build locally:
++
++    go get -v .
++    go build -v ./*.go
++
+ ## Manual
+ 
+ ### Key bindings
+diff --git a/barnard-ui b/barnard-ui
+index 48dbdee..6cb7f0b 100755
+--- a/barnard-ui
++++ b/barnard-ui
+@@ -129,7 +129,13 @@ connect() {
+     if [[ -z "$serverName" || "$serverName" == "Go Back" ]]; then
+         return
+     fi
+-    local username="$(grep '^username: .*$' ~/.barnard.yaml 2> /dev/null | cut -d ' ' -f2-)"
++    local xdg_yaml=${XDG_CONFIG_HOME:-${HOME}/.config}/barnard/config.yaml
++    local old_yaml=$HOME/.barnard.yaml
++    local yaml
++    test -f "$old_yaml" && yaml="$old_yaml" # if we only have an old config, use that
++    test -f "$xdg_yaml" && yaml="$xdg_yaml" # always use xdg_yaml if there is one
++    test -z "$yaml" && yaml="$xdg_yaml" # if there are no config files, use xdg_yaml
++    local username="$(grep '^username: .*$' $yaml 2> /dev/null | cut -d ' ' -f2-)"
+     username="${username//[[:space:]]/_}"
+     username="${username//\"/}"
+     command barnard -username "${username:-${USER}-${HOSTNAME}}" -server ${mumbleServerList[$serverName]} --fifo ~/.config/barnard/cmd --buffers 16 |& log
+diff --git a/config/user_config.go b/config/user_config.go
+index bcfe570..b11b8fc 100644
+--- a/config/user_config.go
++++ b/config/user_config.go
+@@ -4,7 +4,6 @@ import (
+ 	"fmt"
+ 	"github.com/bmmcginty/barnard/uiterm"
+ 	"gopkg.in/yaml.v2"
+-	//	"encoding/yaml"
+ 	"github.com/bmmcginty/barnard/gumble/gumble"
+ 	"io/ioutil"
+ 	"os"
+@@ -236,18 +235,14 @@ func fileExists(path string) bool {
+ }
+ 
+ func resolvePath(path string) string {
+-	if strings.HasPrefix(path, "~/") || strings.Contains(path, "$HOME") {
++	if strings.HasPrefix(path, "~/") {
+ 		usr, err := user.Current()
+ 		if err != nil {
+ 			panic(err)
+ 		}
+-		var hd = usr.HomeDir
+-		if strings.Contains(path, "$HOME") {
+-			path = strings.Replace(path, "$HOME", hd, 1)
+-		} else {
+-			path = strings.Replace(path, "~", hd, 1)
+-		}
+-	}
++    path = strings.Replace(path, "~", usr.HomeDir, 1)
++  }
++
+ 	return path
+ }
+ 
+diff --git a/main.go b/main.go
+index 1ede057..f714067 100644
+--- a/main.go
++++ b/main.go
+@@ -3,7 +3,12 @@ package main
+ import _ "net/http/pprof"
+ import (
+ 	"bufio"
++	"crypto/tls"
++	"flag"
+ 	"fmt"
++	"github.com/adrg/xdg"
++	"github.com/alessio/shellescape"
++	"github.com/bmmcginty/barnard/config"
+ 	"io"
+ 	"log"
+ 	"net/http"
+@@ -11,12 +16,6 @@ import (
+ 	"os/exec"
+ 	"strings"
+ 	"syscall"
+-	//"gopkg.in/alessio/shellescape.v1"
+-	//"github.com/google/shlex"
+-	"crypto/tls"
+-	"flag"
+-	"github.com/alessio/shellescape"
+-	"github.com/bmmcginty/barnard/config"
+ 
+ 	"github.com/bmmcginty/barnard/gumble/gumble"
+ 	_ "github.com/bmmcginty/barnard/gumble/opus"
+@@ -100,13 +99,19 @@ func setup_fifo(fn string) (chan string, error) {
+ }
+ 
+ func main() {
++	configFilePath, err := xdg.ConfigFile("barnard/config.yaml")
++	if err != nil {
++		configFilePath = "~/.barnard.yaml"
++		log.Fatal(err)
++	}
++
+ 	// Command line flags
+ 	server := flag.String("server", "localhost:64738", "the server to connect to")
+ 	username := flag.String("username", "", "the username of the client")
+ 	password := flag.String("password", "", "the password of the server")
+ 	insecure := flag.Bool("insecure", false, "skip server certificate verification")
+ 	certificate := flag.String("certificate", "", "PEM encoded certificate and private key")
+-	cfgfn := flag.String("config", "~/.barnard.yaml", "Path to YAML formatted configuration file")
++	cfgfn := flag.String("config", configFilePath, "Path to YAML formatted configuration file")
+ 	list_devices := flag.Bool("list_devices", false, "do not connect; instead, list available audio devices and exit")
+ 	fifo := flag.String("fifo", "", "path of a FIFO from which to read commands")
+ 	serverSet := false
+
+From 9723ba60deca14425368ea960a4f1988c3356de8 Mon Sep 17 00:00:00 2001
+From: Jonathan Dahan <git@jonathan.is>
+Date: Thu, 31 Dec 2020 14:04:53 -0500
+Subject: [PATCH 2/2] barnard-ui: explain config fallback logic
+
+---
+ barnard-ui | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/barnard-ui b/barnard-ui
+index 6cb7f0b..d265bc7 100755
+--- a/barnard-ui
++++ b/barnard-ui
+@@ -132,9 +132,9 @@ connect() {
+     local xdg_yaml=${XDG_CONFIG_HOME:-${HOME}/.config}/barnard/config.yaml
+     local old_yaml=$HOME/.barnard.yaml
+     local yaml
+-    test -f "$old_yaml" && yaml="$old_yaml" # if we only have an old config, use that
+-    test -f "$xdg_yaml" && yaml="$xdg_yaml" # always use xdg_yaml if there is one
+-    test -z "$yaml" && yaml="$xdg_yaml" # if there are no config files, use xdg_yaml
++    test -f "$old_yaml" && yaml="$old_yaml" # use existing old config
++    test -f "$xdg_yaml" && yaml="$xdg_yaml" # use existing new config over existing old config
++    test -z "$yaml" && yaml="$xdg_yaml"     # default to new config
+     local username="$(grep '^username: .*$' $yaml 2> /dev/null | cut -d ' ' -f2-)"
+     username="${username//[[:space:]]/_}"
+     username="${username//\"/}"

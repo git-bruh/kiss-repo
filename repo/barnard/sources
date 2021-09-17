@@ -1,0 +1,4 @@
+git+https://github.com/bmmcginty/barnard
+git+https://github.com/bmmcginty/go-openal go-openal
+patches/fix-build.patch
+patches/xdg.patch

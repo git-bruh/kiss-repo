@@ -1,0 +1,25 @@
+#!/bin/sh -e
+
+patch -p1 < xdg.patch
+
+(
+	cd go-openal
+
+	patch -p1 < ../fix-build.patch
+
+	cd openal
+
+	go mod init github.com/bmmcginty/go-openal/openal
+)
+
+go mod init
+
+echo "replace github.com/bmmcginty/go-openal/openal => $PWD/go-openal/openal" \
+    >> go.mod
+
+go get -u -v
+
+go install
+
+mkdir -p "$1/usr/bin"
+cp ./barnard-ui "$GOPATH/bin/barnard" "$1/usr/bin/"
