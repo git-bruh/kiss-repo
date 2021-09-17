@@ -1,13 +1,21 @@
 #!/bin/sh -e
 
-patch -p1 < autostart-media-session.patch
+for p in *.patch; do
+    patch -p1 < "$p"
+done
 
 export DESTDIR="$1"
 
+kiss list libsndfile && sndfile=enabled
+
 meson \
-	--prefix=/usr \
-	--libexecdir=/usr/lib \
-	. output
+    --prefix=/usr \
+    --libexecdir=/usr/lib \
+    -Dtests=disabled \
+    -Dpw-cat="${sndfile:-disabled}" \
+    . output
 
 ninja -C output
 ninja -C output install
+
+:>"$1/usr/share/pipewire/media-session.d/with-alsa"
