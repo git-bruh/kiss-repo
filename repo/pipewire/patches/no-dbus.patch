@@ -1,4 +1,4 @@
-From 77d4f594bf23e99b7c96da1dfac4f2997a7b96ea Mon Sep 17 00:00:00 2001
+From e4e3763abf52c0ee1f91168f0d0ac7985a4ef487 Mon Sep 17 00:00:00 2001
 From: git-bruh <e817509a-8ee9-4332-b0ad-3a6bdf9ab63f@aleeas.com>
 Date: Sat, 18 Sep 2021 15:34:36 +0530
 Subject: [PATCH] make dbus support optional
@@ -7,15 +7,14 @@ Subject: [PATCH] make dbus support optional
  meson.build                                   |  6 +++-
  meson_options.txt                             |  4 +++
  spa/plugins/support/meson.build               | 17 +++++-----
- src/examples/media-session/access-portal.c    | 20 +++++++++++
  src/examples/media-session/alsa-monitor.c     | 33 ++++++++++++++++++-
- src/examples/media-session/media-session.c    |  2 ++
- src/examples/meson.build                      |  2 ++
+ src/examples/media-session/media-session.c    |  6 ++++
+ src/examples/meson.build                      |  6 +++-
  src/modules/meson.build                       |  5 ++-
  src/modules/module-protocol-pulse/internal.h  |  2 ++
  .../module-protocol-pulse/pulse-server.c      |  4 +++
  test/meson.build                              | 24 +++++++++-----
- 11 files changed, 99 insertions(+), 20 deletions(-)
+ 10 files changed, 86 insertions(+), 21 deletions(-)
 
 diff --git a/meson.build b/meson.build
 index c9b98c8..a8b2661 100644
@@ -78,128 +77,6 @@ index d95c098..dc1a06f 100644
  
  if systemd_dep.found()
    spa_journal_sources = ['journal.c']
-diff --git a/src/examples/media-session/access-portal.c b/src/examples/media-session/access-portal.c
-index 1b6bb7b..59bfb53 100644
---- a/src/examples/media-session/access-portal.c
-+++ b/src/examples/media-session/access-portal.c
-@@ -30,10 +30,14 @@
- 
- #include "config.h"
- 
-+#ifdef HAVE_DBUS
- #include <dbus/dbus.h>
-+#endif
- 
- #include <spa/utils/string.h>
-+#ifdef HAVE_DBUS
- #include <spa/support/dbus.h>
-+#endif
- #include <spa/debug/dict.h>
- 
- #include "pipewire/pipewire.h"
-@@ -92,7 +96,9 @@ struct impl {
- 
- 	struct spa_list client_list;
- 
-+#ifdef HAVE_DBUS
- 	DBusConnection *bus;
-+#endif
- };
- 
- struct client {
-@@ -112,7 +118,9 @@ struct client {
- 	enum media_role allowed_media_roles;
- };
- 
-+#ifdef HAVE_DBUS
- static DBusConnection *get_dbus_connection(struct impl *impl);
-+#endif
- 
- static void client_info_changed(struct client *client, const struct pw_client_info *info);
- 
-@@ -325,9 +333,11 @@ static void session_destroy(void *data)
- static void session_dbus_disconnected(void *data)
- {
- 	struct impl *impl = data;
-+#ifdef HAVE_DBUS
- 	if (impl->bus)
- 		dbus_connection_unref(impl->bus);
- 	impl->bus = NULL;
-+#endif
- }
- 
- static const struct sm_media_session_events session_events = {
-@@ -338,6 +348,7 @@ static const struct sm_media_session_events session_events = {
- 	.dbus_disconnected = session_dbus_disconnected,
- };
- 
-+#ifdef HAVE_DBUS
- static bool
- check_permission_allowed(DBusMessageIter *iter)
- {
-@@ -357,10 +368,12 @@ check_permission_allowed(DBusMessageIter *iter)
- 
- 	return allowed;
- }
-+#endif
- 
- static void do_permission_store_check(struct client *client)
- {
- 	struct impl *impl = client->impl;
-+#ifdef HAVE_DBUS
- 	DBusMessage *m = NULL, *r = NULL;
- 	DBusError error;
- 	DBusMessageIter msg_iter;
-@@ -369,6 +382,7 @@ static void do_permission_store_check(struct client *client)
- 	DBusMessageIter r_iter;
- 	DBusMessageIter permissions_iter;
- 	DBusConnection *bus;
-+#endif
- 
- 	if (client->app_id == NULL) {
- 		pw_log_debug("Ignoring portal check for broken portal managed client %p",
-@@ -394,6 +408,7 @@ static void do_permission_store_check(struct client *client)
- 					client);
- 		return;
- 	}
-+#ifdef HAVE_DBUS
- 	bus = get_dbus_connection(impl);
- 	if (bus == NULL) {
- 		pw_log_debug("Ignoring portal check for client %p: no dbus",
-@@ -463,6 +478,7 @@ static void do_permission_store_check(struct client *client)
- 	}
- 
- 	dbus_message_unref(r);
-+#endif
- 
- 	return;
- 
-@@ -521,6 +537,7 @@ static void client_info_changed(struct client *client, const struct pw_client_in
- 	client->setup_complete = true;
- }
- 
-+#ifdef HAVE_DBUS
- static DBusHandlerResult permission_store_changed_handler(DBusConnection *connection,
- 							  DBusMessage *message,
- 							  void *user_data)
-@@ -642,6 +659,7 @@ static DBusConnection *get_dbus_connection(struct impl *impl)
- 				   impl, NULL);
- 	return impl->bus;
- }
-+#endif
- 
- int sm_access_portal_start(struct sm_media_session *session)
- {
-@@ -655,7 +673,9 @@ int sm_access_portal_start(struct sm_media_session *session)
- 
- 	impl->session = session;
- 
-+#ifdef HAVE_DBUS
- 	get_dbus_connection(impl);
-+#endif
- 
- 	sm_media_session_add_listener(impl->session,
- 			&impl->listener,
 diff --git a/src/examples/media-session/alsa-monitor.c b/src/examples/media-session/alsa-monitor.c
 index 4cb6e84..32581fb 100644
 --- a/src/examples/media-session/alsa-monitor.c
@@ -352,7 +229,7 @@ index 4cb6e84..32581fb 100644
  }
  
 diff --git a/src/examples/media-session/media-session.c b/src/examples/media-session/media-session.c
-index 7b94e5b..c06e33f 100644
+index 7b94e5b..4854454 100644
 --- a/src/examples/media-session/media-session.c
 +++ b/src/examples/media-session/media-session.c
 @@ -58,7 +58,9 @@
@@ -365,11 +242,49 @@ index 7b94e5b..c06e33f 100644
  
  #include "media-session.h"
  
+@@ -84,7 +86,9 @@
+ #define sm_media_session_emit_dbus_disconnected(s)	sm_media_session_emit(s, dbus_disconnected, 0)
+ 
+ int sm_access_flatpak_start(struct sm_media_session *sess);
++#ifdef HAVE_DBUS
+ int sm_access_portal_start(struct sm_media_session *sess);
++#endif
+ int sm_default_nodes_start(struct sm_media_session *sess);
+ int sm_default_profile_start(struct sm_media_session *sess);
+ int sm_default_routes_start(struct sm_media_session *sess);
+@@ -2384,7 +2388,9 @@ static const struct {
+ 
+ } modules[] = {
+ 	{ "flatpak", "manage flatpak access", sm_access_flatpak_start, NULL },
++#ifdef HAVE_DBUS
+ 	{ "portal", "manage portal permissions", sm_access_portal_start, NULL },
++#endif
+ 	{ "metadata", "export metadata API", sm_metadata_start, NULL },
+ 	{ "default-nodes", "restore default nodes", sm_default_nodes_start, NULL },
+ 	{ "default-profile", "restore default profiles", sm_default_profile_start, NULL },
 diff --git a/src/examples/meson.build b/src/examples/meson.build
-index 680e36a..b9c0733 100644
+index 680e36a..1b4ad46 100644
 --- a/src/examples/meson.build
 +++ b/src/examples/meson.build
-@@ -101,11 +101,13 @@ if get_option('session-managers').contains('media-session')
+@@ -69,7 +69,6 @@ if get_option('session-managers').contains('media-session')
+   endif
+   media_session_sources += [
+     'media-session/access-flatpak.c',
+-    'media-session/access-portal.c',
+     'media-session/alsa-no-dsp.c',
+     'media-session/alsa-midi.c',
+     'media-session/alsa-monitor.c',
+@@ -94,6 +93,9 @@ if get_option('session-managers').contains('media-session')
+     'media-session/libcamera-monitor.c',
+     'media-session/suspend-node.c',
+   ] + sm_logind_src
++  if dbus_dep.found()
++    media_session_sources += ['media-session/access-portal.c']
++  endif
+   executable('pipewire-media-session',
+     media_session_sources,
+     install: true,
+@@ -101,11 +103,13 @@ if get_option('session-managers').contains('media-session')
  )
  endif
  
