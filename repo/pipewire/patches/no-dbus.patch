@@ -1,6 +1,6 @@
-From 4f224c5f202cbdc25ca3dd1cb4ebf664cac3ac05 Mon Sep 17 00:00:00 2001
+From 77d4f594bf23e99b7c96da1dfac4f2997a7b96ea Mon Sep 17 00:00:00 2001
 From: git-bruh <e817509a-8ee9-4332-b0ad-3a6bdf9ab63f@aleeas.com>
-Date: Fri, 17 Sep 2021 19:48:54 +0530
+Date: Sat, 18 Sep 2021 15:34:36 +0530
 Subject: [PATCH] make dbus support optional
 
 ---
@@ -10,12 +10,12 @@ Subject: [PATCH] make dbus support optional
  src/examples/media-session/access-portal.c    | 20 +++++++++++
  src/examples/media-session/alsa-monitor.c     | 33 ++++++++++++++++++-
  src/examples/media-session/media-session.c    |  2 ++
- src/examples/media-session/pw-reserve.c       | 20 +++++++++++
+ src/examples/meson.build                      |  2 ++
  src/modules/meson.build                       |  5 ++-
  src/modules/module-protocol-pulse/internal.h  |  2 ++
  .../module-protocol-pulse/pulse-server.c      |  4 +++
  test/meson.build                              | 24 +++++++++-----
- 11 files changed, 117 insertions(+), 20 deletions(-)
+ 11 files changed, 99 insertions(+), 20 deletions(-)
 
 diff --git a/meson.build b/meson.build
 index c9b98c8..a8b2661 100644
@@ -201,7 +201,7 @@ index 1b6bb7b..59bfb53 100644
  	sm_media_session_add_listener(impl->session,
  			&impl->listener,
 diff --git a/src/examples/media-session/alsa-monitor.c b/src/examples/media-session/alsa-monitor.c
-index d4b2016..56d6e85 100644
+index 4cb6e84..32581fb 100644
 --- a/src/examples/media-session/alsa-monitor.c
 +++ b/src/examples/media-session/alsa-monitor.c
 @@ -48,7 +48,9 @@
@@ -251,7 +251,7 @@ index d4b2016..56d6e85 100644
  	return 0;
  }
  
-@@ -696,6 +709,7 @@ static void set_profile(struct device *device, int index)
+@@ -703,6 +716,7 @@ static void set_profile(struct device *device, int index)
  	}
  }
  
@@ -259,7 +259,7 @@ index d4b2016..56d6e85 100644
  static void set_jack_profile(struct impl *impl, int index)
  {
  	char buf[1024];
-@@ -740,16 +754,20 @@ static void add_jack_timeout(struct impl *impl)
+@@ -747,16 +761,20 @@ static void add_jack_timeout(struct impl *impl)
  	value.tv_nsec = 0;
  	pw_loop_update_timer(main_loop, impl->jack_timeout, &value, NULL, false);
  }
@@ -280,7 +280,7 @@ index d4b2016..56d6e85 100644
  static void reserve_acquired(void *data, struct rd_device *d)
  {
  	struct device *device = data;
-@@ -850,16 +868,20 @@ static const struct rd_device_callbacks reserve_callbacks = {
+@@ -857,16 +875,20 @@ static const struct rd_device_callbacks reserve_callbacks = {
  	.busy = reserve_busy,
  	.available = reserve_available,
  };
@@ -301,7 +301,7 @@ index d4b2016..56d6e85 100644
  	if (device->reserve == NULL) {
  		const char *reserve;
  		const char *path = pw_properties_get(device->props, SPA_KEY_API_ALSA_PATH);
-@@ -896,13 +918,16 @@ static int do_device_acquire(struct device *device)
+@@ -903,13 +925,16 @@ static int do_device_acquire(struct device *device)
  		goto done;
  	}
  	return res;
@@ -318,7 +318,7 @@ index d4b2016..56d6e85 100644
  	return 0;
  }
  
-@@ -921,8 +946,10 @@ static void device_destroy(void *data)
+@@ -928,8 +953,10 @@ static void device_destroy(void *data)
  		spa_hook_remove(&device->device_listener);
  	if (device->seq != 0)
  		spa_hook_remove(&device->sync_listener);
@@ -329,7 +329,7 @@ index d4b2016..56d6e85 100644
  }
  
  static void device_free(void *data)
-@@ -1129,7 +1156,9 @@ static int alsa_start_jack_device(struct impl *impl)
+@@ -1136,7 +1163,9 @@ static int alsa_start_jack_device(struct impl *impl)
  static void session_destroy(void *data)
  {
  	struct impl *impl = data;
@@ -339,7 +339,7 @@ index d4b2016..56d6e85 100644
  	spa_hook_remove(&impl->session_listener);
  	spa_hook_remove(&impl->listener);
  	if (impl->jack_device)
-@@ -1146,9 +1175,11 @@ static void session_dbus_disconnected(void *data)
+@@ -1153,9 +1182,11 @@ static void session_dbus_disconnected(void *data)
  	struct impl *impl = data;
  
  	spa_list_for_each(d, &impl->device_list, link) {
@@ -365,122 +365,29 @@ index 7b94e5b..c06e33f 100644
  
  #include "media-session.h"
  
-diff --git a/src/examples/media-session/pw-reserve.c b/src/examples/media-session/pw-reserve.c
-index 6597a6c..21e9871 100644
---- a/src/examples/media-session/pw-reserve.c
-+++ b/src/examples/media-session/pw-reserve.c
-@@ -27,13 +27,17 @@
- #include <getopt.h>
- #include <signal.h>
+diff --git a/src/examples/meson.build b/src/examples/meson.build
+index 680e36a..b9c0733 100644
+--- a/src/examples/meson.build
++++ b/src/examples/meson.build
+@@ -101,11 +101,13 @@ if get_option('session-managers').contains('media-session')
+ )
+ endif
  
-+#ifdef HAVE_DBUS
- #include <dbus/dbus.h>
++if dbus_dep.found()
+ executable('pw-reserve',
+ 	'media-session/pw-reserve.c',
+ 	install: true,
+ 	dependencies : [dbus_dep, pipewire_dep],
+ )
++endif
  
- #include <spa/support/dbus.h>
-+#endif
- 
- #include "pipewire/pipewire.h"
- 
-+#ifdef HAVE_DBUS
- #include "reserve.c"
-+#endif
- 
- #define NAME "reserve"
- 
-@@ -42,13 +46,16 @@ struct impl {
- 	struct pw_loop *loop;
- 	struct pw_context *context;
- 
-+#ifdef HAVE_DBUS
- 	struct spa_dbus *dbus;
- 	struct spa_dbus_connection *dbus_connection;
- 	DBusConnection *conn;
- 
- 	struct rd_device *device;
-+#endif
- };
- 
-+#ifdef HAVE_DBUS
- static void reserve_acquired(void *data, struct rd_device *d)
- {
- 	fprintf(stdout, "reserve acquired\n");
-@@ -77,6 +84,7 @@ static const struct rd_device_callbacks reserve_callbacks = {
- 	.busy = reserve_busy,
- 	.available = reserve_available,
- };
-+#endif
- 
- static void do_quit(void *data, int signal_number)
- {
-@@ -102,12 +110,16 @@ static void show_help(const char *name)
- int main(int argc, char *argv[])
- {
- 	struct impl impl = { 0, };
-+#ifdef HAVE_DBUS
- 	const struct spa_support *support;
- 	uint32_t n_support;
-+#endif
- 	const char *opt_name = NULL;
-+#ifdef HAVE_DBUS
- 	const char *opt_appname = DEFAULT_APPNAME;
- 	bool opt_monitor = false;
- 	int opt_priority= DEFAULT_PRIORITY;
-+#endif
- 
- 	int res = 0, c;
- 	static const struct option long_options[] = {
-@@ -138,6 +150,7 @@ int main(int argc, char *argv[])
- 		case 'n':
- 			opt_name = optarg;
- 			break;
-+#ifdef HAVE_DBUS
- 		case 'a':
- 			opt_appname = optarg;
- 			break;
-@@ -147,6 +160,7 @@ int main(int argc, char *argv[])
- 		case 'm':
- 			opt_monitor = true;
- 			break;
-+#endif
- 		default:
- 			fprintf(stderr, "invalid option '%c'\n", c);
- 			return -1;
-@@ -175,6 +189,7 @@ int main(int argc, char *argv[])
- 		goto exit;
- 	}
- 
-+#ifdef HAVE_DBUS
- 	support = pw_context_get_support(impl.context, &n_support);
- 
- 	impl.dbus = spa_support_find(support, n_support, SPA_TYPE_INTERFACE_DBus);
-@@ -203,17 +218,22 @@ int main(int argc, char *argv[])
- 
- 	if (!opt_monitor)
- 		rd_device_acquire(impl.device);
-+#endif
- 
- 	pw_main_loop_run(impl.mainloop);
- 
-+#ifdef HAVE_DBUS
- 	if (!opt_monitor)
- 		rd_device_release(impl.device);
-+#endif
- 
- exit:
-+#ifdef HAVE_DBUS
- 	if (impl.conn)
- 		dbus_connection_unref(impl.conn);
- 	if (impl.dbus)
- 		spa_dbus_connection_destroy(impl.dbus_connection);
-+#endif
- 	if (impl.context)
- 		pw_context_destroy(impl.context);
- 	if (impl.mainloop)
+ executable('bluez-session',
+   'bluez-session.c',
 diff --git a/src/modules/meson.build b/src/modules/meson.build
-index 77d05c5..6ae6ed5 100644
+index b2bb2da..9ee30e3 100644
 --- a/src/modules/meson.build
 +++ b/src/modules/meson.build
-@@ -200,7 +200,6 @@ pipewire_module_protocol_pulse_sources = [
+@@ -209,7 +209,6 @@ pipewire_module_protocol_pulse_sources = [
    'module-protocol-pulse.c',
    'module-protocol-pulse/client.c',
    'module-protocol-pulse/collect.c',
@@ -488,7 +395,7 @@ index 77d05c5..6ae6ed5 100644
    'module-protocol-pulse/extension.c',
    'module-protocol-pulse/format.c',
    'module-protocol-pulse/manager.c',
-@@ -237,6 +236,10 @@ pipewire_module_protocol_pulse_sources = [
+@@ -246,6 +245,10 @@ pipewire_module_protocol_pulse_sources = [
    'module-protocol-pulse/modules/module-zeroconf-discover.c',
  ]
  
@@ -514,10 +421,10 @@ index 9ece0ba..92fbb4a 100644
  	struct ratelimit rate_limit;
  
 diff --git a/src/modules/module-protocol-pulse/pulse-server.c b/src/modules/module-protocol-pulse/pulse-server.c
-index 1feb4d5..8d4a7f6 100644
+index eda21b5..4327bb3 100644
 --- a/src/modules/module-protocol-pulse/pulse-server.c
 +++ b/src/modules/module-protocol-pulse/pulse-server.c
-@@ -4938,8 +4938,10 @@ static void impl_free(struct impl *impl)
+@@ -4935,8 +4935,10 @@ static void impl_free(struct impl *impl)
  	struct client *c;
  	struct message *msg;
  
@@ -528,7 +435,7 @@ index 1feb4d5..8d4a7f6 100644
  
  	spa_list_consume(msg, &impl->free_messages, link)
  		message_free(impl, msg, true, true);
-@@ -5113,7 +5115,9 @@ struct pw_protocol_pulse *pw_protocol_pulse_new(struct pw_context *context,
+@@ -5110,7 +5112,9 @@ struct pw_protocol_pulse *pw_protocol_pulse_new(struct pw_context *context,
  	pw_context_add_listener(context, &impl->context_listener,
  			&context_events, impl);
  
