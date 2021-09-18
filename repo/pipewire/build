@@ -4,6 +4,9 @@ for p in *.patch; do
     patch -p1 < "$p"
 done
 
+PATH_MAX="$(getconf PATH_MAX /)"
+export CPPFLAGS="$CPPFLAGS -DPATH_MAX=$PATH_MAX"
+
 export DESTDIR="$1"
 
 kiss list libsndfile && sndfile=enabled
