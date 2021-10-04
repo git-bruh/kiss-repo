@@ -1,6 +1,7 @@
 alsa-utils
 axel
 bemenu
+btop
 btrfs-progs
 bubblewrap
 cantarell-fonts
@@ -20,7 +21,6 @@ gnugrep
 gnupg2
 gomuks
 grim
-htop
 jq
 less
 linux-firmware
@@ -28,11 +28,11 @@ lld
 llvm
 man-pages
 mandoc
-mpv
 nvidia
 openssh
 pigz
 pipewire
+pqiv
 qogir-cursors
 rbw
 samurai

@@ -2,6 +2,9 @@
 
 export DESTDIR="$1"
 
+sed 's/HAS_GWP_ASAN TRUE/HAS_GWP_ASAN FALSE/' cmake/config-ix.cmake > _
+mv -f _ cmake/config-ix.cmake
+
 cmake -B build \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_BUILD_TYPE=Release \
