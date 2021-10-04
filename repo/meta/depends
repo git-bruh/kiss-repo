@@ -4,9 +4,7 @@ bemenu
 btrfs-progs
 bubblewrap
 cantarell-fonts
-chroma-bin
 clang
-cmark-gfm
 cmus
 compiler-rt
 cproc
@@ -18,7 +16,6 @@ firefox
 foot-pgo
 gdb
 github-cli
-glibc
 gnugrep
 gnupg2
 gomuks
@@ -37,7 +34,7 @@ openssh
 pigz
 pipewire
 qogir-cursors
-rbw-bin
+rbw
 samurai
 shellcheck-bin
 slurp
@@ -51,5 +48,4 @@ vis
 wf-recorder
 wl-clipboard
 wpa_supplicant
-xkeyboard-config
 youtube-dl
