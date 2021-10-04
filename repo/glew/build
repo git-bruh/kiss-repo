@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+sed "s/lib64/lib/g" config/Makefile.linux > _
+mv -f _ config/Makefile.linux
+
+make DESTDIR="$1" SYSTEM=linux-egl install.all

@@ -12,7 +12,7 @@ cmake -B build \
     -DCMAKE_BUILD_TYPE=Release \
     -DLLVM_BUILD_LLVM_DYLIB=ON \
     -DLLVM_LINK_LLVM_DYLIB=ON \
-    -DLLVM_TARGETS_TO_BUILD="host;AMDGPU" \
+    -DLLVM_TARGETS_TO_BUILD="host" \
     -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra" \
     -DLLVM_ENABLE_RTTI=ON \
     -DLLVM_HOST_TRIPLE="$(cc -dumpmachine)" \
