@@ -1,4 +1,7 @@
 #!/bin/sh -e
 
+sed 's|PUBLIC_HEADERS :=|& include/olm/olm_export.h |' Makefile > _
+mv -f _ Makefile
+
 make
 make PREFIX=/usr DESTDIR="$1" install
