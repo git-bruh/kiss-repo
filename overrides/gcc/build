@@ -24,8 +24,6 @@ case $2 in "$gcc_version"*)
     bootstrap=--disable-bootstrap
 esac
 
-export libat_cv_have_ifunc=no
-
 ../gcc/configure \
     --prefix=/usr \
     --libexecdir=/usr/lib \
@@ -35,7 +33,6 @@ export libat_cv_have_ifunc=no
     --disable-symvers \
     --disable-libmpx \
     --disable-libmudflap \
-    --disable-libsanitizer \
     --disable-werror \
     --disable-fixed-point \
     --disable-libstdcxx-pch \
