@@ -14,6 +14,7 @@ kiss list libsndfile && sndfile=enabled
 meson \
     --prefix=/usr \
     --libexecdir=/usr/lib \
+    -Ddbus=disabled \
     -Dtests=disabled \
     -Dpw-cat="${sndfile:-disabled}" \
     . output

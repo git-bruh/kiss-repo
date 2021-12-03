@@ -1,87 +1,54 @@
-From e4e3763abf52c0ee1f91168f0d0ac7985a4ef487 Mon Sep 17 00:00:00 2001
-From: git-bruh <e817509a-8ee9-4332-b0ad-3a6bdf9ab63f@aleeas.com>
-Date: Sat, 18 Sep 2021 15:34:36 +0530
-Subject: [PATCH] make dbus support optional
-
----
- meson.build                                   |  6 +++-
- meson_options.txt                             |  4 +++
- spa/plugins/support/meson.build               | 17 +++++-----
- src/examples/media-session/alsa-monitor.c     | 33 ++++++++++++++++++-
- src/examples/media-session/media-session.c    |  6 ++++
- src/examples/meson.build                      |  6 +++-
- src/modules/meson.build                       |  5 ++-
- src/modules/module-protocol-pulse/internal.h  |  2 ++
- .../module-protocol-pulse/pulse-server.c      |  4 +++
- test/meson.build                              | 24 +++++++++-----
- 10 files changed, 86 insertions(+), 21 deletions(-)
-
-diff --git a/meson.build b/meson.build
-index c9b98c8..a8b2661 100644
---- a/meson.build
-+++ b/meson.build
-@@ -320,7 +320,11 @@ mathlib = cc.find_library('m', required : false)
+diff --git a/src/modules/module-protocol-pulse/internal.h b/src/modules/module-protocol-pulse/internal.h
+index df222cf..ac3bfc4 100644
+--- a/src/modules/module-protocol-pulse/internal.h
++++ b/src/modules/module-protocol-pulse/internal.h
+@@ -68,7 +68,9 @@ struct impl {
+ 	struct spa_hook context_listener;
+ 
+ 	struct pw_properties *props;
++#ifdef HAVE_DBUS
+ 	void *dbus_name;
++#endif
+ 
+ 	struct ratelimit rate_limit;
+ 
+diff --git a/subprojects/media-session/meson.build b/subprojects/media-session/meson.build
+index e5f8362..8242f82 100644
+--- a/subprojects/media-session/meson.build
++++ b/subprojects/media-session/meson.build
+@@ -80,7 +80,11 @@ mathlib = cc.find_library('m', required : false)
  rt_lib = cc.find_library('rt', required : false) # clock_gettime
  dl_lib = cc.find_library('dl', required : false)
  pthread_lib = dependency('threads')
 -dbus_dep = dependency('dbus-1')
 +dbus_dep = dependency('dbus-1', required : get_option('dbus'))
 +summary({'dbus': dbus_dep.found()}, bool_yn: true)
-+if dbus_dep.found() and dbus_dep.found()
++if dbus_dep.found()
 +  cdata.set('HAVE_DBUS', 1)
 +endif
- sdl_dep = dependency('sdl2', required : get_option('sdl2'))
- summary({'SDL 2': sdl_dep.found()}, bool_yn: true, section: 'Misc dependencies')
- ncurses_dep = dependency('ncursesw', required : false)
-diff --git a/meson_options.txt b/meson_options.txt
-index 3d4d653..a1894cf 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -30,6 +30,10 @@ option('gstreamer-device-provider',
-        description: 'Build GStreamer device provider plugin',
+ 
+ libinotify_dep = (build_machine.system() == 'freebsd'
+     ? dependency('libinotify', required: true)
+diff --git a/subprojects/media-session/meson_options.txt b/subprojects/media-session/meson_options.txt
+index d25b03a..71d78bb 100644
+--- a/subprojects/media-session/meson_options.txt
++++ b/subprojects/media-session/meson_options.txt
+@@ -5,6 +5,10 @@ option('docs',
+        description: 'Build documentation',
         type: 'feature',
-        value: 'auto')
+        value: 'disabled')
 +option('dbus',
 +       description: 'Enable dbus support',
 +       type: 'feature',
 +       value: 'auto')
- option('systemd',
-        description: 'Enable systemd integration',
+ option('tests',
+        description: 'Build tests',
         type: 'feature',
-diff --git a/spa/plugins/support/meson.build b/spa/plugins/support/meson.build
-index d95c098..dc1a06f 100644
---- a/spa/plugins/support/meson.build
-+++ b/spa/plugins/support/meson.build
-@@ -30,15 +30,16 @@ if not get_option('evl').disabled()
- 		        install_dir : spa_plugindir / 'support')
- endif
- 
--spa_dbus_sources = ['dbus.c']
--
--spa_dbus_lib = shared_library('spa-dbus',
--			spa_dbus_sources,
--			include_directories : [ spa_inc],
--			dependencies : [dbus_dep, ],
--			install : true,
--		        install_dir : spa_plugindir / 'support')
-+if dbus_dep.found()
-+  spa_dbus_sources = ['dbus.c']
- 
-+  spa_dbus_lib = shared_library('spa-dbus',
-+			  spa_dbus_sources,
-+			  include_directories : [ spa_inc],
-+			  dependencies : [dbus_dep, ],
-+			  install : true,
-+		          install_dir : spa_plugindir / 'support')
-+endif
- 
- if systemd_dep.found()
-   spa_journal_sources = ['journal.c']
-diff --git a/src/examples/media-session/alsa-monitor.c b/src/examples/media-session/alsa-monitor.c
-index 4cb6e84..32581fb 100644
---- a/src/examples/media-session/alsa-monitor.c
-+++ b/src/examples/media-session/alsa-monitor.c
-@@ -48,7 +48,9 @@
+diff --git a/subprojects/media-session/src/alsa-monitor.c b/subprojects/media-session/src/alsa-monitor.c
+index c21e490..22d2d1c 100644
+--- a/subprojects/media-session/src/alsa-monitor.c
++++ b/subprojects/media-session/src/alsa-monitor.c
+@@ -48,15 +48,18 @@
  #include <spa/pod/parser.h>
  #include <spa/debug/dict.h>
  #include <spa/debug/pod.h>
@@ -91,17 +58,17 @@ index 4cb6e84..32581fb 100644
  
  #include <pipewire/pipewire.h>
  #include <pipewire/i18n.h>
-@@ -56,7 +58,9 @@
+ #include <pipewire/extensions/session-manager.h>
  
  #include "media-session.h"
- 
 +#ifdef HAVE_DBUS
- #include "reserve.c"
+ #include "reserve.h"
+-
 +#endif
  
  /** \page page_media_session_module_alsa_monitor Media Session Module: ALSA Monitor
   *
-@@ -148,7 +152,9 @@ struct device {
+@@ -154,7 +157,9 @@ struct device {
  
  	char *factory_name;
  
@@ -111,7 +78,7 @@ index 4cb6e84..32581fb 100644
  	struct spa_hook sync_listener;
  	int seq;
  	int priority;
-@@ -256,8 +262,15 @@ static int node_release(void *data)
+@@ -262,8 +267,15 @@ static int node_release(void *data)
  
  	node->acquired = false;
  
@@ -128,7 +95,7 @@ index 4cb6e84..32581fb 100644
  	return 0;
  }
  
-@@ -703,6 +716,7 @@ static void set_profile(struct device *device, int index)
+@@ -709,6 +721,7 @@ static void set_profile(struct device *device, int index)
  	}
  }
  
@@ -136,7 +103,7 @@ index 4cb6e84..32581fb 100644
  static void set_jack_profile(struct impl *impl, int index)
  {
  	char buf[1024];
-@@ -747,16 +761,20 @@ static void add_jack_timeout(struct impl *impl)
+@@ -753,16 +766,20 @@ static void add_jack_timeout(struct impl *impl)
  	value.tv_nsec = 0;
  	pw_loop_update_timer(main_loop, impl->jack_timeout, &value, NULL, false);
  }
@@ -157,7 +124,7 @@ index 4cb6e84..32581fb 100644
  static void reserve_acquired(void *data, struct rd_device *d)
  {
  	struct device *device = data;
-@@ -857,16 +875,20 @@ static const struct rd_device_callbacks reserve_callbacks = {
+@@ -863,16 +880,20 @@ static const struct rd_device_callbacks reserve_callbacks = {
  	.busy = reserve_busy,
  	.available = reserve_available,
  };
@@ -178,7 +145,7 @@ index 4cb6e84..32581fb 100644
  	if (device->reserve == NULL) {
  		const char *reserve;
  		const char *path = pw_properties_get(device->props, SPA_KEY_API_ALSA_PATH);
-@@ -903,13 +925,16 @@ static int do_device_acquire(struct device *device)
+@@ -909,13 +930,16 @@ static int do_device_acquire(struct device *device)
  		goto done;
  	}
  	return res;
@@ -195,7 +162,7 @@ index 4cb6e84..32581fb 100644
  	return 0;
  }
  
-@@ -928,8 +953,10 @@ static void device_destroy(void *data)
+@@ -934,8 +958,10 @@ static void device_destroy(void *data)
  		spa_hook_remove(&device->device_listener);
  	if (device->seq != 0)
  		spa_hook_remove(&device->sync_listener);
@@ -206,7 +173,7 @@ index 4cb6e84..32581fb 100644
  }
  
  static void device_free(void *data)
-@@ -1136,7 +1163,9 @@ static int alsa_start_jack_device(struct impl *impl)
+@@ -1141,7 +1167,9 @@ static int alsa_start_jack_device(struct impl *impl)
  static void session_destroy(void *data)
  {
  	struct impl *impl = data;
@@ -216,7 +183,7 @@ index 4cb6e84..32581fb 100644
  	spa_hook_remove(&impl->session_listener);
  	spa_hook_remove(&impl->listener);
  	if (impl->jack_device)
-@@ -1153,9 +1182,11 @@ static void session_dbus_disconnected(void *data)
+@@ -1158,9 +1186,11 @@ static void session_dbus_disconnected(void *data)
  	struct impl *impl = data;
  
  	spa_list_for_each(d, &impl->device_list, link) {
@@ -228,11 +195,11 @@ index 4cb6e84..32581fb 100644
  	}
  }
  
-diff --git a/src/examples/media-session/media-session.c b/src/examples/media-session/media-session.c
-index 7b94e5b..4854454 100644
---- a/src/examples/media-session/media-session.c
-+++ b/src/examples/media-session/media-session.c
-@@ -58,7 +58,9 @@
+diff --git a/subprojects/media-session/src/media-session.c b/subprojects/media-session/src/media-session.c
+index c50d0a9..3088d05 100644
+--- a/subprojects/media-session/src/media-session.c
++++ b/subprojects/media-session/src/media-session.c
+@@ -54,7 +54,9 @@
  #include "pipewire/extensions/session-manager.h"
  #include "pipewire/extensions/client-node.h"
  
@@ -242,7 +209,7 @@ index 7b94e5b..4854454 100644
  
  #include "media-session.h"
  
-@@ -84,7 +86,9 @@
+@@ -83,7 +85,9 @@ PW_LOG_TOPIC(ms_topic, "ms.core");
  #define sm_media_session_emit_dbus_disconnected(s)	sm_media_session_emit(s, dbus_disconnected, 0)
  
  int sm_access_flatpak_start(struct sm_media_session *sess);
@@ -252,7 +219,7 @@ index 7b94e5b..4854454 100644
  int sm_default_nodes_start(struct sm_media_session *sess);
  int sm_default_profile_start(struct sm_media_session *sess);
  int sm_default_routes_start(struct sm_media_session *sess);
-@@ -2384,7 +2388,9 @@ static const struct {
+@@ -2414,7 +2418,9 @@ static const struct {
  
  } modules[] = {
  	{ "flatpak", "manage flatpak access", sm_access_flatpak_start, NULL },
@@ -262,144 +229,36 @@ index 7b94e5b..4854454 100644
  	{ "metadata", "export metadata API", sm_metadata_start, NULL },
  	{ "default-nodes", "restore default nodes", sm_default_nodes_start, NULL },
  	{ "default-profile", "restore default profiles", sm_default_profile_start, NULL },
-diff --git a/src/examples/meson.build b/src/examples/meson.build
-index 680e36a..1b4ad46 100644
---- a/src/examples/meson.build
-+++ b/src/examples/meson.build
-@@ -69,7 +69,6 @@ if get_option('session-managers').contains('media-session')
-   endif
-   media_session_sources += [
-     'media-session/access-flatpak.c',
--    'media-session/access-portal.c',
-     'media-session/alsa-no-dsp.c',
-     'media-session/alsa-midi.c',
-     'media-session/alsa-monitor.c',
-@@ -94,6 +93,9 @@ if get_option('session-managers').contains('media-session')
-     'media-session/libcamera-monitor.c',
-     'media-session/suspend-node.c',
-   ] + sm_logind_src
-+  if dbus_dep.found()
-+    media_session_sources += ['media-session/access-portal.c']
-+  endif
-   executable('pipewire-media-session',
-     media_session_sources,
-     install: true,
-@@ -101,11 +103,13 @@ if get_option('session-managers').contains('media-session')
- )
+diff --git a/subprojects/media-session/src/meson.build b/subprojects/media-session/src/meson.build
+index 50ca38c..0036f33 100644
+--- a/subprojects/media-session/src/meson.build
++++ b/subprojects/media-session/src/meson.build
+@@ -4,9 +4,12 @@ if systemd.found() and systemd_dep.found()
+   sm_logind_src = ['logind.c']
+   sm_logind_dep = [systemd_dep]
  endif
- 
++dbus_src = []
 +if dbus_dep.found()
- executable('pw-reserve',
- 	'media-session/pw-reserve.c',
- 	install: true,
- 	dependencies : [dbus_dep, pipewire_dep],
- )
++  dbus_src = ['access-portal.c', 'reserve.c']
 +endif
- 
- executable('bluez-session',
-   'bluez-session.c',
-diff --git a/src/modules/meson.build b/src/modules/meson.build
-index b2bb2da..9ee30e3 100644
---- a/src/modules/meson.build
-+++ b/src/modules/meson.build
-@@ -209,7 +209,6 @@ pipewire_module_protocol_pulse_sources = [
-   'module-protocol-pulse.c',
-   'module-protocol-pulse/client.c',
-   'module-protocol-pulse/collect.c',
--  'module-protocol-pulse/dbus-name.c',
-   'module-protocol-pulse/extension.c',
-   'module-protocol-pulse/format.c',
-   'module-protocol-pulse/manager.c',
-@@ -246,6 +245,10 @@ pipewire_module_protocol_pulse_sources = [
-   'module-protocol-pulse/modules/module-zeroconf-discover.c',
- ]
- 
-+if dbus_dep.found()
-+  pipewire_module_protocol_pulse_sources += 'module-protocol-pulse/dbus-name.c'
-+endif
-+
- if avahi_dep.found()
-   pipewire_module_protocol_pulse_sources += [
-     'module-protocol-pulse/modules/module-zeroconf-publish.c',
-diff --git a/src/modules/module-protocol-pulse/internal.h b/src/modules/module-protocol-pulse/internal.h
-index 9ece0ba..92fbb4a 100644
---- a/src/modules/module-protocol-pulse/internal.h
-+++ b/src/modules/module-protocol-pulse/internal.h
-@@ -67,7 +67,9 @@ struct impl {
- 	struct spa_hook context_listener;
- 
- 	struct pw_properties *props;
-+#ifdef HAVE_DBUS
- 	void *dbus_name;
-+#endif
- 
- 	struct ratelimit rate_limit;
- 
-diff --git a/src/modules/module-protocol-pulse/pulse-server.c b/src/modules/module-protocol-pulse/pulse-server.c
-index eda21b5..4327bb3 100644
---- a/src/modules/module-protocol-pulse/pulse-server.c
-+++ b/src/modules/module-protocol-pulse/pulse-server.c
-@@ -4935,8 +4935,10 @@ static void impl_free(struct impl *impl)
- 	struct client *c;
- 	struct message *msg;
- 
-+#ifdef HAVE_DBUS
- 	if (impl->dbus_name)
- 		dbus_release_name(impl->dbus_name);
-+#endif
- 
- 	spa_list_consume(msg, &impl->free_messages, link)
- 		message_free(impl, msg, true, true);
-@@ -5110,7 +5112,9 @@ struct pw_protocol_pulse *pw_protocol_pulse_new(struct pw_context *context,
- 	pw_context_add_listener(context, &impl->context_listener,
- 			&context_events, impl);
- 
-+#ifdef HAVE_DBUS
- 	impl->dbus_name = dbus_request_name(context, "org.pulseaudio.Server");
-+#endif
- 
- 	return (struct pw_protocol_pulse *) impl;
- 
-diff --git a/test/meson.build b/test/meson.build
-index bbef49d..a28062a 100644
---- a/test/meson.build
-+++ b/test/meson.build
-@@ -67,20 +67,26 @@ test('test client',
-                include_directories: pwtest_inc,
-                link_with: pwtest_lib)
- )
-+context_link_with = [
-+	pwtest_lib,
-+	spa_support_lib,
-+	pipewire_module_protocol_native,
-+	pipewire_module_client_node,
-+	pipewire_module_client_device,
-+	pipewire_module_adapter,
-+	pipewire_module_metadata,
-+	pipewire_module_session_manager
-+]
-+
-+if dbus_dep.found()
-+  context_link_with += spa_dbus_lib
-+endif
- test('test context',
-     executable('test-context',
-                'test-context.c',
-                'test-config.c',
-                include_directories: pwtest_inc,
--               link_with: [pwtest_lib,
--                            spa_support_lib,
--                            spa_dbus_lib,
--                            pipewire_module_protocol_native,
--                            pipewire_module_client_node,
--                            pipewire_module_client_device,
--                            pipewire_module_adapter,
--                            pipewire_module_metadata,
--                            pipewire_module_session_manager])
-+               link_with: context_link_with)
- )
- test('test support',
-     executable('test-support',
--- 
-2.33.0
-
+ media_session_sources = [
+     'access-flatpak.c',
+-    'access-portal.c',
+     'alsa-no-dsp.c',
+     'alsa-midi.c',
+     'alsa-monitor.c',
+@@ -25,13 +28,12 @@ media_session_sources = [
+     'restore-stream.c',
+     'policy-ep.c',
+     'policy-node.c',
+-    'reserve.c',
+     'streams-follow-default.c',
+     'v4l2-monitor.c',
+     'v4l2-endpoint.c',
+     'libcamera-monitor.c',
+     'suspend-node.c',
+-  ] + sm_logind_src
++  ] + sm_logind_src + dbus_src
+ pipewire_media_session = executable('pipewire-media-session',
+   media_session_sources,
+   include_directories: [configinc],
