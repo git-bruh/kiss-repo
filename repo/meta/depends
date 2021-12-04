@@ -16,7 +16,6 @@ dracula-gtk-theme
 file
 firefox
 foot-pgo
-fzf
 gdb
 github-cli
 glibc
@@ -33,7 +32,6 @@ lld
 llvm
 man-pages
 mandoc
-mpv
 nvidia
 openssh
 pigz
@@ -57,4 +55,3 @@ wf-recorder
 wl-clipboard
 wpa_supplicant
 yt-dlp
-ytfzf
