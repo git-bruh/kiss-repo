@@ -1,15 +1,15 @@
-btop
 curl
 dhcpcd
+htop
 iptables
 libcap
 libjpeg-turbo
 libxslt
+linux-headers
 opendoas
 openssh
 pigz
 postgresql
-rust
 stagit
 tmux
 umurmur
