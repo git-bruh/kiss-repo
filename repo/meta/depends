@@ -7,7 +7,6 @@ bubblewrap
 cantarell-fonts
 clang
 cmus
-compiler-rt
 cproc
 dhcpcd
 dnscrypt-proxy
@@ -27,7 +26,6 @@ jq
 less
 linux-firmware
 linux-headers
-lld
 llvm
 man-pages
 mandoc

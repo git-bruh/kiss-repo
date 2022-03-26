@@ -10,11 +10,12 @@ mv -f _ llvm/cmake/config-ix.cmake
 cmake -B build \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_BUILD_TYPE=Release \
+    -DCOMPILER_RT_INSTALL_PATH="/usr/lib/clang/$2" \
     -DLLVM_BUILD_LLVM_DYLIB=ON \
     -DLLVM_LINK_LLVM_DYLIB=ON \
-    -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra" \
+    -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;compiler-rt;lld" \
     -DLLVM_ENABLE_RTTI=ON \
-    -DLLVM_HOST_TRIPLE="$(cc -dumpmachine)" \
+    -DLLVM_HOST_TRIPLE="$(${CC:-cc} -dumpmachine)" \
     -DLLVM_INCLUDE_BENCHMARKS=OFF \
     -DLLVM_INCLUDE_EXAMPLES=OFF \
     -DLLVM_INCLUDE_DOCS=OFF \
@@ -25,6 +26,9 @@ cmake -B build \
 
 cmake --build   build
 cmake --install build
+
+# Provide lld as an alternative to ld.
+ln -s lld "$1/usr/bin/ld"
 
 # Fix up libexec location. This can't be done during
 # the configure stage of the build as it is hardcoded.
