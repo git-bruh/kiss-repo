@@ -44,8 +44,7 @@ meson \
     -Dglvnd=true \
     -Dplatforms=wayland \
     -Dzstd=disabled \
-    -Ddri-drivers=nouveau \
-    -Dgallium-drivers="" \
+    -Dgallium-drivers=virgl \
     -Dvulkan-drivers="" \
     -Dglx=disabled \
     -Dgles1=disabled \
