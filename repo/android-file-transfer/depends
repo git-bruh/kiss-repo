@@ -2,4 +2,3 @@ cmake make
 file
 fuse2
 openssl
-readline
