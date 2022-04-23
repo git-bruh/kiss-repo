@@ -1,0 +1,19 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+sed -e '/chown root:root/d' -e '/mknod/d' util/install_helper.sh > _
+mv -f _ util/install_helper.sh
+
+meson \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    -Dexamples=false \
+    -Dtests=false \
+    -Dudevrulesdir=/usr/lib/udev \
+    . output
+
+ninja -C output
+ninja -C output install
+
+rmdir "$1/dev"

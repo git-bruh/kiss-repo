@@ -1,0 +1,16 @@
+diff --git a/utils/install_helper.sh b/utils/install_helper.sh
+index c62686c..e525fa8 100755
+--- a/utils/install_helper.sh
++++ b/utils/install_helper.sh
+@@ -12,8 +12,7 @@ prefix="${MESON_INSTALL_DESTDIR_PREFIX}"
+ 
+ mkdir -p "${prefix}/${sbindir}"
+ 
+-ln -svf --relative "${prefix}/${bindir}/sshfs" \
+-   "${prefix}/${sbindir}/mount.sshfs"
++cd "${prefix}/${sbindir}"
+ 
+-ln -svf --relative "${prefix}/${bindir}/sshfs" \
+-   "${prefix}/${sbindir}/mount.fuse.sshfs"
++ln -sf "../${bindir}/sshfs" mount.sshfs
++ln -sf "../${bindir}/sshfs" mount.fuse.sshfs

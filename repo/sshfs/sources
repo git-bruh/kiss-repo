@@ -1,0 +1,3 @@
+https://github.com/libfuse/sshfs/releases/download/sshfs-3.7.2/sshfs-3.7.2.tar.xz
+patches/c2715f74537a4487934ae22d3c0edf9c7fb779aa.patch
+patches/portability.patch
