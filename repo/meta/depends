@@ -7,7 +7,6 @@ bubblewrap
 cantarell-fonts
 clang
 cmus
-cproc
 dhcpcd
 dnscrypt-proxy
 dracula-gtk-theme
@@ -38,7 +37,6 @@ pigz
 pipewire
 qemu
 qogir-cursors
-samurai
 shellcheck-bin
 slurp
 ssu
@@ -49,7 +47,7 @@ tmate-bin
 ttf-jetbrains-mono
 twemoji-color-font
 vis
+wayclip
 wf-recorder
-wl-clipboard
 wpa_supplicant
 yt-dlp
