@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+: "${KERNEL_UNAME:=$(uname -r)}"
+
+make
+
+mkdir -p "$1/usr/lib/modules/$KERNEL_UNAME/extra"
+cp ./*.ko "$1/usr/lib/modules/$KERNEL_UNAME/extra/"
