@@ -1,0 +1,39 @@
+#!/bin/sh -e
+
+NAME="Qogir-dark"
+THEMEDIR="$1/usr/share/icons/$NAME"
+
+mkdir -p "$THEMEDIR"
+
+(
+    cd "$1/usr/share/icons"
+    ln -s "$NAME" default
+)
+
+(
+    cd src
+
+    sed 's|Qogir|$NAME|g' index.theme > _
+    mv -f _ index.theme
+
+    cp -R \
+        index.theme \
+        cursors/dist-dark/cursors \
+        "$THEMEDIR"
+
+    subdirs="16 22 24 32 48 96 128 scalable symbolic"
+
+    for dir in src links; do
+        for subdir in $subdirs; do
+            cp -R "../$dir/$subdir" "$THEMEDIR"
+        done
+    done
+
+    (
+        cd "$THEMEDIR"
+
+        for subdir in $subdirs; do
+            ln -sf "$subdir" "$subdir@2x"
+        done
+    )
+)

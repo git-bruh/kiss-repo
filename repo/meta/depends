@@ -8,7 +8,6 @@ clang
 cmus
 dhcpcd
 dnscrypt-proxy
-dracula-gtk-theme
 file
 firefox
 foot-pgo
@@ -20,6 +19,8 @@ gnupg2
 grim
 htop
 jq
+kak-lsp
+kakoune
 less
 linux-firmware
 linux-headers
@@ -34,7 +35,8 @@ patch
 pigz
 pipewire
 qemu
-qogir-cursors
+qogir-gtk-theme
+qogir-icon-theme
 shellcheck-bin
 slurp
 ssu
@@ -45,7 +47,6 @@ tmate-bin
 ttf-jetbrains-mono
 twemoji-color-font
 v4l2loopback
-vis
 wayclip
 wf-recorder
 wpa_supplicant
