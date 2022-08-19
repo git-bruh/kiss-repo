@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+export DESTDIR="$1"
+
 # Install python-mako which is solely needed for mesa
 # and thus contained in this build.
 {
@@ -22,34 +24,36 @@
 
     cd -; cd ..
 }
-
 export PYTHONPATH
-export DESTDIR="$1"
-export CFLAGS="$CFLAGS -DGLX_X86_READONLY_TEXT"
 
 # Fix issues with musl and firefox.
 # https://bugs.freedesktop.org/show_bug.cgi?id=35268
 # https://github.com/mesa3d/mesa/commit/9f37c9903b87f86a533bfaffa72f0ecb285b02b2
-sed -i "/pre_args += '-DUSE_ELF_TLS'/d" meson.build
+# https://gitlab.freedesktop.org/mesa/mesa/-/issues/966
+sed "/pre_args += '-DUSE_ELF_TLS'/d" meson.build > _
+mv -f _ meson.build
 
-python3 bin/git_sha1_gen.py --output include/git_sha1.h
+# To prevent the need for users to fork the mesa package to add
+# libglvnd support, the below code checks for its availability
+# and enables it if present. ie: install glvnd, rebuild mesa.
+pkg-config --exists libglvnd || glvnd_enabled=false
 
-meson \
-    --prefix=/usr \
-    --sysconfdir=/etc \
-    --mandir=/usr/share/man \
-    --localstatedir=/var \
-    --buildtype=release \
-    -Dgbm=enabled \
-    -Dglvnd=true \
-    -Dplatforms=wayland \
-    -Dzstd=disabled \
+meson setup \
+    -Dprefix=/usr \
+    -Dsysconfdir=/etc \
+    -Dmandir=/usr/share/man \
+    -Dlocalstatedir=/var \
+    -Dbuildtype=release \
+    -Dglx-read-only-text=true \
+    -Dplatforms=x11 \
+    -Dglx=auto \
+    -Degl=enabled \
+    -Dvalgrind=false \
+    -Dzstd=false \
+    -Dglvnd="${glvnd_enabled:-true}" \
     -Dgallium-drivers=virgl \
     -Dvulkan-drivers="" \
-    -Dglx=disabled \
-    -Dgles1=disabled \
-    -Dgles2=disabled \
-    . output
+    output
 
 ninja -C output
 ninja -C output install
