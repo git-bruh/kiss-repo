@@ -1,0 +1,8 @@
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.19.1.tar.xz
+files/.config
+patches/0005-glitched-pds.patch
+patches/0009-prjc_v5.19-r0.patch
+patches/0010-lru_5.19.patch
+patches/more-uarches-for-kernel-5.17+.patch
+patches/no-bash.patch
+patches/no-perl.patch

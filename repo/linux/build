@@ -1,0 +1,48 @@
+#!/bin/sh -e
+
+for patch in *.patch; do
+    patch -p1 < "$patch"
+done
+
+make olddefconfig
+
+modulesdir="$1/usr/lib/modules/$2"
+builddir="$modulesdir/build"
+
+make
+make INSTALL_MOD_PATH="$1/usr" INSTALL_MOD_STRIP=1 modules_install
+
+rm -f "$modulesdir/build" "$modulesdir/source"
+
+for dir in kernel arch/x86/kernel drivers/md net/mac80211 tools/objtool; do
+    mkdir -p "$builddir/$dir"
+done
+
+cp .config Makefile Module.symvers System.map "$builddir"
+cp kernel/Makefile "$builddir/kernel/"
+cp arch/x86/Makefile "$builddir/arch/x86/"
+cp arch/x86/kernel/asm-offsets.s "$builddir/arch/x86/kernel/"
+cp drivers/md/*.h "$builddir/drivers/md/"
+cp net/mac80211/*.h "$builddir/net/mac80211/"
+cp tools/objtool/objtool "$builddir/tools/objtool/"
+
+cp -LR scripts "$builddir/scripts"
+cp -LR include "$builddir/include"
+cp -LR arch/x86/include "$builddir/arch/x86/include"
+
+find . -name "Kconfig*" -exec install -Dm644 {} "$builddir/{}" \;
+
+rm -rf "$builddir/Documentation"
+find -L "$builddir" -type l -exec rm -rf {} +
+find "$builddir" -type f -name "*.o" -exec rm -rf {} +
+
+for arch in alpha arc arm arm64 c6x csky h8300 hexagon \
+            ia64 m68k microblaze mips nds32 nios2      \
+            openrisc parisc powerpc riscv s390 sh      \
+            sparc um unicore32 xtensa;
+do
+    rm -rf "$arch"
+done
+
+mkdir -p "$1/boot/EFI"
+cp arch/x86/boot/bzImage "$1/boot/EFI/KISS.efi"
