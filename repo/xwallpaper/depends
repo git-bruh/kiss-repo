@@ -1,0 +1,6 @@
+libjpeg-turbo
+libpng
+libxcb
+pixman
+xcb-util
+xcb-util-image
