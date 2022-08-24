@@ -9,6 +9,7 @@ clang
 cmus
 curl
 dhcpcd
+dmenu
 file
 gdb
 glibc
@@ -16,6 +17,7 @@ htop
 jq
 kak-lsp
 kakoune
+less
 linux
 linux-headers
 llvm
