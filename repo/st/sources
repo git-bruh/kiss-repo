@@ -1,6 +1,9 @@
 https://dl.suckless.org/st/st-0.8.5.tar.gz
-files/config.h
 patches/0001-st-scrollback-0.8.5.diff
 patches/0002-st-scrollback-reflow-0.8.5.diff
 patches/0003-st-scrollback-mouse-20220127-2c5edf2.diff
 patches/0004-st-scrollback-mouse-altscreen-20220127-2c5edf2.diff
+patches/0005-st-boxdraw_v2-0.8.5.diff
+patches/0006-st-clipboard-0.8.3.diff
+patches/0007-st-onedark.diff
+patches/0008-st-scrollback-mouse-increment-0.8.2.diff
