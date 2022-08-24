@@ -1,3 +1,4 @@
+libX11
 libconfig
 libev
 meson   make
