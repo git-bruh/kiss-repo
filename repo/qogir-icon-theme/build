@@ -13,7 +13,7 @@ mkdir -p "$THEMEDIR"
 (
     cd src
 
-    sed 's|Qogir|$NAME|g' index.theme > _
+    sed "s|Qogir|$NAME|g" index.theme > _
     mv -f _ index.theme
 
     cp -R \
