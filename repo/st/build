@@ -1,5 +1,9 @@
 #!/bin/sh -e
 
+for p in *.diff; do
+    patch -p1 < "$p"
+done
+
 # Install terminfo to right location.
 export TERMINFO="$1/usr/share/terminfo"
 mkdir -p "$TERMINFO"
