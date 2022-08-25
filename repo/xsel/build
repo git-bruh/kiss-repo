@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+mkdir -p "$1/usr/bin" "$1/usr/share/man/man1"
+
+${CC:-cc} $CFLAGS $CPPFLAGS -DVERSION="\"$2\"" -lX11 xsel.c -o "$1/usr/bin/xsel"
+cp xsel.1x "$1/usr/share/man/man1/"
