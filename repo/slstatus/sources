@@ -1,0 +1,3 @@
+git+git://git.suckless.org/slstatus
+files/config.h
+patches/no-xorg.patch
