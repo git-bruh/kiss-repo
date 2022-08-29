@@ -69,14 +69,14 @@ static const char unknown_str[] = "n/a";
 
 static const struct arg args[] = {
 	/* function format          argument */
-	{ wifi_essid, "  %s", "wlan0" },
+	{ wifi_essid, " %s", "wlan0" },
 	SEP(" ("),
 	{ netspeed_rx, "%s", "wlan0" },
 	SEP(")"),
 	SEP(SEP_DEFAULT),
-	{ cpu_perc, "  %s%%", NULL },
+	{ cpu_perc, " %s%%", NULL },
 	SEP(SEP_DEFAULT),
-	{ ram_perc, "  %s%%", NULL },
+	{ ram_perc, " %s%%", NULL },
 	SEP(" ("),
 	{ swap_perc, "%s%%", NULL },
 	SEP(")"),
