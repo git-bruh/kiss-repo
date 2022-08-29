@@ -1,11 +1,13 @@
 alsa-utils
 axel
 baseinit
+bemenu
 btrfs-progs
 bubblewrap
 cantarell-fonts
 clang
 cmus
+cryptsetup
 curl
 dhcpcd
 file
