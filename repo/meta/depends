@@ -33,12 +33,14 @@ pipewire
 qogir-gtk-theme
 qogir-icon-theme
 shellcheck-bin
+slstatus
 slurp
 ssu
 strace
 sway
 swaybg
 tmate-bin
+ttf-font-awesome
 ttf-jetbrains-mono
 twemoji-color-font
 wayclip
