@@ -1,5 +1,7 @@
 curl
 dhcpcd
+file
+go
 htop
 iptables
 libcap
@@ -10,6 +12,7 @@ opendoas
 openssh
 pigz
 postgresql
-stagit
+shellcheck-bin
 tmux
 umurmur
+vis
