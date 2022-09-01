@@ -1,3 +1,4 @@
-git+git://git.suckless.org/slstatus
+git+git://git.suckless.org/slstatus#VERSION
 files/config.h
+patches/no-trailing-space-fmt_human.patch
 patches/no-xorg.patch

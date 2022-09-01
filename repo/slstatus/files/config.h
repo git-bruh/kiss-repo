@@ -72,6 +72,8 @@ static const struct arg args[] = {
 	{ wifi_essid, " %s", "wlan0" },
 	SEP(" ("),
 	{ netspeed_rx, "%s", "wlan0" },
+	SEP(" / "),
+	{ netspeed_tx, "%s", "wlan0" },
 	SEP(")"),
 	SEP(SEP_DEFAULT),
 	{ cpu_perc, " %s%%", NULL },
