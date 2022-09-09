@@ -1,7 +1,0 @@
-curl
-glib
-gperf make
-libxml2
-libxmlb
-libyaml
-meson make
