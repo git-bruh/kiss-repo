@@ -10,9 +10,11 @@ clang
 cmus
 cryptsetup
 curl
+dbus
 dhcpcd
 file
 firefox
+flatpak
 foot-pgo
 gdb
 glibc
