@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+mkdir -p "$1/opt/jvm" "$1/usr/bin"
+cp -R "$PWD" "$1/opt/jvm/java-11-amazon-corretto"
+
+cd "$1/usr/bin"
+
+for bin in ../../opt/jvm/java-*/bin/*; do
+    ln -sf "$bin" .
+done

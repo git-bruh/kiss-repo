@@ -1,0 +1,21 @@
+#!/bin/sh -e
+
+unzip "./kotlin-compiler-$2.zip"
+cd kotlinc
+
+mkdir -p "$1/usr/bin" "$1/usr/share/kotlin/lib"
+
+sed "s|^KOTLIN_HOME=.*|KOTLIN_HOME=/usr/share/kotlin|" bin/kotlinc > _
+
+mv -f _ bin/kotlinc
+chmod +x bin/kotlinc
+
+for bin in kotlin kotlinc kotlinc-js kotlinc-jvm; do
+    cp "bin/$bin" "$1/usr/bin/"
+done
+
+for jar in lib/*.jar; do
+    cp "$jar" "$1/usr/share/kotlin/lib/"
+done
+
+cp build.txt "$1/usr/share/kotlin/"

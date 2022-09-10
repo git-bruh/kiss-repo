@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+mkdir -p "$1/etc/profile.d" "$1/opt/android-sdk/cmdline-tools/latest"
+
+cat > "$1/etc/profile.d/android-sdk.sh" <<EOF
+export ANDROID_SDK_ROOT=/opt/android-sdk
+export ANDROID_SDK_HOME=\$ANDROID_SDK_ROOT
+export PATH=\$PATH:\$ANDROID_SDK_ROOT/cmdline-tools/latest/bin
+EOF
+
+unzip ./commandlinetools-*.zip
+cp -R cmdline-tools/* "$1/opt/android-sdk/cmdline-tools/latest/"
