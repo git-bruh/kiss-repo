@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+mkdir -p "$1/usr/bin" "$1/usr/share/apktool"
+
+sed "s|^libdir=.*|libdir=/usr/share/apktool|" scripts/linux/apktool > _
+
+mv _ "$1/usr/bin/apktool"
+chmod +x "$1/usr/bin/apktool"
+
+cp "apktool_$2.jar" "$1/usr/share/apktool/apktool.jar"
