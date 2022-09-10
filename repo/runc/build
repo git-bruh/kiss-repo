@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-go mod vendor
-
-make
-make BINDIR=/usr/bin DESTDIR="$1" PREFIX=/usr install
