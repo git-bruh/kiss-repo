@@ -4,6 +4,9 @@ for patch in *.patch; do
     patch -p1 < "$patch"
 done
 
+sed 's/FORCE//' arch/x86/crypto/Makefile > _
+mv -f _ arch/x86/crypto/Makefile
+
 make olddefconfig
 
 modulesdir="$1/usr/lib/modules/$2"
