@@ -12,6 +12,7 @@ cryptsetup
 curl
 dbus
 dhcpcd
+encpipe
 file
 firefox
 flatpak
@@ -42,6 +43,7 @@ slstatus
 slurp
 ssu
 strace
+swappy
 sway
 swaybg
 tmate-bin
