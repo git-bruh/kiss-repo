@@ -1,0 +1,5 @@
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.19.9.tar.xz
+files/.config
+files/poly1305-x86_64-cryptogams.S arch/x86/crypto
+patches/no-bash.patch
+patches/no-perl.patch
