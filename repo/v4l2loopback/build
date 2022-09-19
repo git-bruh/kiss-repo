@@ -2,7 +2,11 @@
 
 : "${KERNEL_UNAME:=$(uname -r)}"
 
-make
+export KERNELRELEASE="$KERNEL_UNAME"
 
-mkdir -p "$1/usr/lib/modules/$KERNEL_UNAME/extra"
-cp ./*.ko "$1/usr/lib/modules/$KERNEL_UNAME/extra/"
+make
+make INSTALL_MOD_PATH="$1/usr" INSTALL_MOD_STRIP=1 install
+
+for file in modules.symbols modules.dep modules.alias; do
+    rm -f "$1/usr/lib/modules/$KERNEL_UNAME/$file"
+done
