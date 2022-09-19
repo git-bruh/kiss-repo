@@ -2,11 +2,13 @@ curl
 dhcpcd
 file
 go
+grub
 htop
 iptables
 libcap
 libjpeg-turbo
 libxslt
+linux
 linux-headers
 opendoas
 openssh
