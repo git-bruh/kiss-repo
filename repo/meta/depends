@@ -28,6 +28,7 @@ less
 linux
 linux-headers
 llvm
+lm-sensors
 man-pages
 mandoc
 meson
