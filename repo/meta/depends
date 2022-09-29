@@ -34,6 +34,7 @@ mandoc
 meson
 mpv
 nvidia
+opendoas
 openssh
 pigz
 pipewire
@@ -42,7 +43,6 @@ qogir-icon-theme
 shellcheck-bin
 slstatus
 slurp
-ssu
 strace
 swappy
 sway
