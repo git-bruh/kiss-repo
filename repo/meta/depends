@@ -6,12 +6,14 @@ bemenu
 btrfs-progs
 bubblewrap
 cantarell-fonts
+catppuccin-mocha-gtk
 clang
 cmus
 cryptsetup
 curl
 dbus
 dhcpcd
+docker
 encpipe
 file
 firefox
@@ -38,8 +40,7 @@ opendoas
 openssh
 pigz
 pipewire
-qogir-gtk-theme
-qogir-icon-theme
+qogir-cursors
 shellcheck-bin
 slstatus
 slurp
