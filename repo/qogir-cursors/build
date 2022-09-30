@@ -20,20 +20,4 @@ mkdir -p "$THEMEDIR"
         index.theme \
         cursors/dist-dark/cursors \
         "$THEMEDIR"
-
-    subdirs="16 22 24 32 48 96 128 scalable symbolic"
-
-    for dir in src links; do
-        for subdir in $subdirs; do
-            cp -R "../$dir/$subdir" "$THEMEDIR"
-        done
-    done
-
-    (
-        cd "$THEMEDIR"
-
-        for subdir in $subdirs; do
-            ln -sf "$subdir" "$subdir@2x"
-        done
-    )
 )
