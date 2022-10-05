@@ -21,6 +21,7 @@ flatpak
 foot-pgo
 gdb
 glibc
+gnugrep
 grim
 htop
 jq
@@ -40,7 +41,10 @@ opendoas
 openssh
 pigz
 pipewire
+qemu
 qogir-cursors
+s6-linux-init
+s6-rc
 shellcheck-bin
 slstatus
 slurp
