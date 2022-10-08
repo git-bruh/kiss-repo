@@ -1,9 +1,10 @@
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.19.9.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-6.0.tar.xz
 files/.config
 files/poly1305-x86_64-cryptogams.S arch/x86/crypto
 patches/0005-glitched-pds.patch
-patches/0009-prjc_v5.19-r0.patch
-patches/0010-lru_5.19.patch
+patches/0009-prjc_v6.0-r0.patch
+patches/0010-lru_6.0.patch
+patches/0013-optimize_harder_O3.patch
 patches/more-uarches-for-kernel-5.17+.patch
 patches/no-bash.patch
 patches/no-perl.patch
