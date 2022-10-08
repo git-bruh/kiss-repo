@@ -8,5 +8,5 @@ make
 make INSTALL_MOD_PATH="$1/usr" INSTALL_MOD_STRIP=1 install
 
 for file in modules.symbols modules.dep modules.alias; do
-    rm -f "$1/usr/lib/modules/$KERNEL_UNAME/$file"
+    rm -f "$1/usr/lib/modules/"*"/$file"
 done
