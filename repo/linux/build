@@ -9,7 +9,10 @@ mv -f _ arch/x86/crypto/Makefile
 
 make olddefconfig
 
-modulesdir="$1/usr/lib/modules/$2"
+make syncconfig
+KERNELRELEASE="$(make kernelrelease)"
+
+modulesdir="$1/usr/lib/modules/$KERNELRELEASE"
 builddir="$modulesdir/build"
 
 make
