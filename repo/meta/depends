@@ -43,6 +43,7 @@ pigz
 pipewire
 qemu
 qogir-cursors
+reptyr
 s6-linux-init
 s6-rc
 shellcheck-bin
