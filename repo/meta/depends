@@ -11,6 +11,7 @@ clang
 cmus
 cryptsetup
 curl
+dash
 dbus
 dhcpcd
 docker
