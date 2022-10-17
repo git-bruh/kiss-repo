@@ -27,6 +27,7 @@ htop
 jq
 kak-lsp-bin
 kakoune
+kmod
 less
 linux
 linux-headers
@@ -62,4 +63,5 @@ v4l2loopback
 wayclip
 wf-recorder
 wpa_supplicant
+yash
 yt-dlp
