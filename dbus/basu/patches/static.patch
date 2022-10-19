@@ -1,0 +1,19 @@
+diff --git a/meson.build b/meson.build
+index 918f5bb..aab867a 100644
+--- a/meson.build
++++ b/meson.build
+@@ -304,12 +304,10 @@ foreach tuple : tests
+ endforeach
+ 
+ libsystemd_sym_path = '@0@/@1@'.format(meson.current_source_dir(), libsystemd_sym)
+-libsystemd = shared_library(
++libsystemd = static_library(
+         'basu',
+-        soversion : soversion,
+         include_directories : includes,
+-        link_args : ['-shared',
+-                     '-Wl,--version-script=' + libsystemd_sym_path],
++        link_args : ['-Wl,--version-script=' + libsystemd_sym_path],
+         link_with : libbasic,
+         link_whole : libsystemd_static,
+         dependencies : [threads,
