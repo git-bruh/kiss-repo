@@ -1,6 +1,4 @@
-https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.0.tar.xz
-https://cdn.kernel.org/pub/linux/kernel/v6.x/patch-6.0.11.xz
+https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.7.tar.xz
 files/.config
 files/poly1305-x86_64-cryptogams.S arch/x86/crypto
-patches/no-bash.patch
 patches/no-perl.patch
