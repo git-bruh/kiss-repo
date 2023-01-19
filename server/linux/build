@@ -1,7 +1,5 @@
 #!/bin/sh -e
 
-xz -dc "patch-$2.xz" | patch -p1
-
 for patch in *.patch; do
     patch -p1 < "$patch"
 done
