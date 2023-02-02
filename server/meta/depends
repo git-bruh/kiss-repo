@@ -1,6 +1,8 @@
 curl
 dhcpcd
+docker
 file
+gdb
 go
 grub
 htop
@@ -15,6 +17,7 @@ openssh
 pigz
 postgresql
 shellcheck-bin
+strace
 tmux
-umurmur
-vis
+vim
+wireguard-tools
