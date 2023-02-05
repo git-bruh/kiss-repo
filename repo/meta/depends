@@ -41,6 +41,7 @@ mpv
 nvidia
 opendoas
 openssh
+patch
 pigz
 pipewire
 qemu
@@ -61,9 +62,9 @@ ttf-font-awesome
 ttf-jetbrains-mono
 twemoji-color-font
 v4l2loopback
-wayclip
 wf-recorder
 wireguard-tools
+wl-clipboard
 wpa_supplicant
 xdg-desktop-portal-wlr
 yash
