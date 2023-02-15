@@ -1,4 +1,5 @@
 alsa-utils
+amazon-corretto-11
 android-tools
 axel
 baseinit
@@ -8,6 +9,7 @@ bubblewrap
 cantarell-fonts
 catppuccin-mocha-gtk
 clang
+cmake
 cmus
 cryptsetup
 curl
@@ -23,6 +25,7 @@ foot-pgo
 gdb
 glibc
 gnugrep
+go
 grim
 htop
 jq
@@ -44,9 +47,11 @@ openssh
 patch
 pigz
 pipewire
+pv
 qemu
 qogir-cursors
 reptyr
+rust
 s6-linux-init
 s6-rc
 shellcheck-bin
