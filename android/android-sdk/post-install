@@ -1,9 +1,0 @@
-#!/bin/sh
-
-grep "^android-sdk:" /etc/group >/dev/null || addgroup -S "android-sdk"
-chown "1000:android-sdk" /opt/android-sdk
-
-cat <<EOF
-NOTE: Add your user to the android-sdk group to access the SDK directories
-NOTE: Use the sdkmanager command to install extra SDK components
-EOF
