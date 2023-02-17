@@ -4,3 +4,8 @@ mkdir -p "$1/usr/share/themes"
 
 cd "$1/usr/share/themes"
 unzip "$OLDPWD/"*.zip
+
+for variant in "" -hdpi -xhdpi; do
+    ln -s "Catppuccin-Mocha-Standard-Blue-Dark$variant" \
+      "Catppuccin-Mocha$variant"
+done
