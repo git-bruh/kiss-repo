@@ -39,6 +39,7 @@ llvm
 lm-sensors
 man-pages
 mandoc
+mdev-usb
 meson
 mpv
 nvidia
@@ -55,6 +56,7 @@ rust
 s6-linux-init
 s6-rc
 shellcheck-bin
+shfmt-bin
 slstatus
 slurp
 strace
@@ -63,6 +65,7 @@ sway
 swaybg
 syncthing
 tmate-bin
+tmux
 ttf-font-awesome
 ttf-jetbrains-mono
 twemoji-color-font
