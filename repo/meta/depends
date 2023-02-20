@@ -55,6 +55,7 @@ reptyr
 rust
 s6-linux-init
 s6-rc
+s6-scripts
 shellcheck-bin
 shfmt-bin
 slstatus
