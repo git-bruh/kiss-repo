@@ -1,0 +1,27 @@
+#!/bin/sh -e
+
+export DESTDIR="$1"
+
+meson \
+    --prefix=/usr \
+    --libexecdir=/usr/lib \
+    -Ddatabase=simple \
+    -Dgtk=disabled \
+    -Dalsa=disabled \
+    -Dglib=disabled \
+    -Dopenssl=disabled \
+    -Dudev=disabled \
+    -Dx11=disabled \
+    -Ddaemon=false \
+    -Ddoxygen=false \
+    -Dtests=false \
+    -Dman=false \
+    . output
+
+ninja -C output
+DESTDIR="$PWD/tmp" ninja -C output install
+
+mkdir -p "$1/usr"
+mv "$PWD/tmp/usr/lib" "$1/usr/"
+
+rm -rf "$1/usr/lib/cmake" "$1/usr/lib/pkgconfig"

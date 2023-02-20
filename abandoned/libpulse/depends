@@ -1,0 +1,9 @@
+alsa-lib
+flac
+glib
+libogg
+libsndfile
+libtool
+libudev-zero
+libvorbis
+meson make
