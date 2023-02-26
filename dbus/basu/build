@@ -2,10 +2,9 @@
 
 export DESTDIR="$1"
 
-patch -p1 < static.patch
-
 meson \
     --prefix=/usr \
+    -Ddefault_library=static \
     . output
 
 ninja -C output
