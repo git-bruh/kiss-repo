@@ -16,6 +16,8 @@ dash
 dbus
 dhcpcd
 docker
+docker-buildx
+docker-compose
 encpipe
 file
 firefox
@@ -23,6 +25,7 @@ flatpak
 foot-pgo
 gdb
 glibc
+glow-bin
 gnugrep
 go
 grim
@@ -41,6 +44,7 @@ mandoc
 mdev-usb
 meson
 mpv
+nodejs
 nvidia
 opendoas
 openssh
@@ -55,6 +59,7 @@ rust
 s6-linux-init
 s6-rc
 s6-scripts
+scrcpy
 shellcheck-bin
 shfmt-bin
 slstatus
@@ -70,9 +75,9 @@ ttf-font-awesome
 ttf-jetbrains-mono
 twemoji-color-font
 v4l2loopback
+wayclip
 wf-recorder
 wireguard-tools
-wl-clipboard
 wpa_supplicant
 xdg-desktop-portal-wlr
 yash
