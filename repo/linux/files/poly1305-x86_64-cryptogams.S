@@ -99,7 +99,6 @@
 .quad	0x3ffffffffff,0x3ffffffffff,0x3ffffffffff,0x3ffffffffff
 .quad	0x3ffffffffff,0x3ffffffffff,0x3ffffffffff,0x3ffffffffff
 .text
-.align 32
 SYM_FUNC_START(poly1305_init_x86_64)
 .Lpoly1305_init_x86_64:
 	xor	%eax,%eax
@@ -119,7 +118,6 @@ SYM_FUNC_START(poly1305_init_x86_64)
 .Lno_key:
 	RET
 SYM_FUNC_END(poly1305_init_x86_64)
-.align 32
 SYM_FUNC_START(poly1305_blocks_x86_64)
 .Lpoly1305_blocks_x86_64:
 .Lblocks:
@@ -213,7 +211,6 @@ SYM_FUNC_START(poly1305_blocks_x86_64)
 .Lblocks_epilogue:
 	RET
 SYM_FUNC_END(poly1305_blocks_x86_64)
-.align 32
 SYM_FUNC_START(poly1305_emit_x86_64)
 .Lpoly1305_emit_x86_64:
 .Lemit:
@@ -447,7 +444,6 @@ __poly1305_init_avx:
 	pop %rbp
 	RET
 .size	__poly1305_init_avx,.-__poly1305_init_avx
-.align 32
 SYM_FUNC_START(poly1305_blocks_avx)
 .Lpoly1305_blocks_avx:
 	mov	20(%rdi),%r8d		# is_base2_26
@@ -1236,7 +1232,6 @@ SYM_FUNC_START(poly1305_blocks_avx)
 	vzeroupper
 	RET
 SYM_FUNC_END(poly1305_blocks_avx)
-.align 32
 SYM_FUNC_START(poly1305_emit_avx)
 .Lpoly1305_emit_avx:
 	cmpl	$0,20(%rdi)	# is_base2_26?
@@ -1290,7 +1285,6 @@ SYM_FUNC_START(poly1305_emit_avx)
 
 	RET
 SYM_FUNC_END(poly1305_emit_avx)
-.align 32
 SYM_FUNC_START(poly1305_blocks_avx2)
 .Lpoly1305_blocks_avx2:
 	mov	20(%rdi),%r8d		# is_base2_26
@@ -1884,7 +1878,6 @@ SYM_FUNC_START(poly1305_blocks_avx2)
 	RET
 SYM_FUNC_END(poly1305_blocks_avx2)
 #ifdef CONFIG_AS_AVX512
-.align 32
 SYM_FUNC_START(poly1305_blocks_avx512)
 .Lpoly1305_blocks_avx512:
 	mov	20(%rdi),%r8d		# is_base2_26

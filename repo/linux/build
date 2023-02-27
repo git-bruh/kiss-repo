@@ -32,9 +32,9 @@ cp drivers/md/*.h "$builddir/drivers/md/"
 cp net/mac80211/*.h "$builddir/net/mac80211/"
 cp tools/objtool/objtool "$builddir/tools/objtool/"
 
-cp -LR scripts "$builddir/scripts"
-cp -LR include "$builddir/include"
-cp -LR arch/x86/include "$builddir/arch/x86/include"
+cp -R scripts "$builddir/scripts"
+cp -R include "$builddir/include"
+cp -R arch/x86/include "$builddir/arch/x86/include"
 
 find . -name "Kconfig*" -exec install -Dm644 {} "$builddir/{}" \;
 
