@@ -1,6 +1,6 @@
 basu make
 dbus
-libinih
+inih
 mesa
 meson make
 pipewire
