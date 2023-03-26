@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+export CFLAGS="$CFLAGS -fPIC"
+
+cd libiberty
+
+./configure \
+    --prefix=/usr \
+    --disable-multilib \
+    --enable-install-libiberty
+
+make
+make DESTDIR="$1" install
