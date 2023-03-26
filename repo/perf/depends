@@ -1,0 +1,12 @@
+binutils
+bison make
+flex make
+libelf
+libiberty make
+libunwind
+openssl
+pkgconf make
+python
+xz
+zlib
+zstd

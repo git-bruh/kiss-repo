@@ -1,0 +1,18 @@
+#!/bin/sh -e
+
+cd tools/perf
+
+mk() {
+    make \
+        prefix="/usr" bindir_relative="bin" \
+        EXTRA_CFLAGS="${CFLAGS}" \
+        EXTRA_LDFLAGS="${LDFLAGS}" \
+        WERROR=0 \
+        LIBDIR="/usr/libexec/perf-core" \
+        libdir="/usr/lib" \
+        plugindir="/usr/lib/perf/plugins" \
+        "$@"
+}
+
+mk -f Makefile.perf install DESTDIR="$1"
+mk -f Makefile.perf install-python_ext DESTDIR="$1"
