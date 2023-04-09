@@ -1,6 +1,4 @@
 #!/bin/sh -e
 
-mkdir -p "$1/usr/lib/firmware/amd-ucode" "$1/usr/lib/firmware/rtlwifi"
-
-cp microcode_amd_fam17h.bin "$1/usr/lib/firmware/amd-ucode/"
-cp rtl8188eufw.bin "$1/usr/lib/firmware/rtlwifi/"
+mkdir -p "$1/usr/lib/firmware"
+cp -R ./* "$1/usr/lib/firmware/"
