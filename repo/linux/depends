@@ -1,3 +1,4 @@
 libelf
+libtirpc
 linux-firmware make
 zstd make

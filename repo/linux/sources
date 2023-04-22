@@ -1,4 +1,5 @@
 https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.2.1.tar.xz
+https://github.com/openzfs/zfs/releases/download/zfs-2.1.11/zfs-2.1.11.tar.gz zfs
 files/.config
 files/poly1305-x86_64-cryptogams.S arch/x86/crypto
 patches/0005-glitched-pds.patch

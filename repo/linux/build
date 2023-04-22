@@ -7,6 +7,18 @@ done
 sed 's/FORCE//' arch/x86/crypto/Makefile > _
 mv -f _ arch/x86/crypto/Makefile
 
+make prepare
+
+(
+    cd zfs
+
+    ./configure \
+        --with-linux="$PWD/.." \
+        --enable-linux-builtin
+
+    ./copy-builtin "$PWD/.."
+)
+
 make olddefconfig
 
 make syncconfig
