@@ -7,9 +7,12 @@ done
 sed 's/FORCE//' arch/x86/crypto/Makefile > _
 mv -f _ arch/x86/crypto/Makefile
 
-make prepare
-
 (
+    cp .config .cfgbak
+
+    make olddefconfig
+    make prepare
+
     cd zfs
 
     ./configure \
@@ -17,6 +20,8 @@ make prepare
         --enable-linux-builtin
 
     ./copy-builtin "$PWD/.."
+
+    mv -f .cfgbak .config
 )
 
 make olddefconfig
