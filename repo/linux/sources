@@ -1,4 +1,4 @@
-https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.2.1.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.25.tar.xz
 https://github.com/openzfs/zfs/releases/download/zfs-2.1.11/zfs-2.1.11.tar.gz zfs
 files/.config
 patches/0005-glitched-pds.patch
