@@ -10,13 +10,15 @@ done
     make olddefconfig
     make prepare
 
-    cd zfs
+    (
+        cd zfs
 
-    ./configure \
-        --with-linux="$PWD/.." \
-        --enable-linux-builtin
+        ./configure \
+            --with-linux="$PWD/.." \
+            --enable-linux-builtin
 
-    ./copy-builtin "$PWD/.."
+        ./copy-builtin "$PWD/.."
+    )
 
     mv -f .cfgbak .config
 )
