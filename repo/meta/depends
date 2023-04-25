@@ -35,6 +35,8 @@ kak-lsp-bin
 kakoune
 kmod
 less
+libtirpc
+libva
 linux
 linux-headers
 llvm
@@ -50,6 +52,7 @@ openssh
 patch
 pigz
 pipewire
+powertop
 pv
 qemu
 qogir-cursors
