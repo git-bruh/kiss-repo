@@ -1,5 +1,4 @@
 libelf
-libtirpc make
 linux-firmware make
 perl make
 zstd make

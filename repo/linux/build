@@ -4,25 +4,6 @@ for patch in *.patch; do
     patch -p1 < "$patch"
 done
 
-(
-    cp .config .cfgbak
-
-    make olddefconfig
-    make prepare
-
-    (
-        cd zfs
-
-        ./configure \
-            --with-linux="$PWD/.." \
-            --enable-linux-builtin
-
-        ./copy-builtin "$PWD/.."
-    )
-
-    mv -f .cfgbak .config
-)
-
 make olddefconfig
 
 make syncconfig
