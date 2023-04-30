@@ -4,6 +4,8 @@ for patch in *.patch; do
     patch -p1 < "$patch"
 done
 
+export LLVM=1
+
 make olddefconfig
 
 make syncconfig
