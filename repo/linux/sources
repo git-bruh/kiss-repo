@@ -5,3 +5,4 @@ patches/0009-prjc_v6.2-r0.patch
 patches/0013-optimize_harder_O3.patch
 patches/more-uarches-for-kernel-5.17+.patch
 patches/no-perl.patch
+patches/no-thinlto-cache.patch

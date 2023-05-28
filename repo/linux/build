@@ -5,6 +5,7 @@ for patch in *.patch; do
 done
 
 export LLVM=1
+sed -i '/^VERSION = /a LLVM = 1' Makefile
 
 make olddefconfig
 
