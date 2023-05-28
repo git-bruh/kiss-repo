@@ -41,10 +41,13 @@ linux
 linux-headers
 llvm
 lm-sensors
+lsof
+lux
 man-pages
 mandoc
 mdev-usb
 meson
+mold
 mpv
 nodejs
 opendoas
