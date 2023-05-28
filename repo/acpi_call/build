@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+: "${KERNEL_UNAME:=$(uname -r)}"
+
+export KERNELRELEASE="$KERNEL_UNAME"
+
+make
+make INSTALL_MOD_PATH="$1/usr" INSTALL_MOD_STRIP=1 install
+
+rm -f "$1/usr/lib/modules/"*"/modules."*
+
+mkdir -p "$1/usr/share/acpi_call"
+cp -R examples "$1/usr/share/acpi_call/"
