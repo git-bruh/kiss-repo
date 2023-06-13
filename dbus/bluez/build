@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+./configure \
+    --prefix=/usr \
+    --libexecdir=/usr/lib \
+    --disable-systemd \
+    --enable-library \
+    --disable-manpages \
+    --disable-obex \
+    --with-udevdir=/etc/udev
+
+make
+make install
