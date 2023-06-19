@@ -3,6 +3,7 @@
 : "${KERNEL_UNAME:=$(uname -r)}"
 
 export KERNELRELEASE="$KERNEL_UNAME"
+export KVER="$KERNEL_UNAME"
 
 make
 make INSTALL_MOD_PATH="$1/usr" INSTALL_MOD_STRIP=1 install
