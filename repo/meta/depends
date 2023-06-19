@@ -1,9 +1,11 @@
 acpi_call
+age
 alsa-utils
 amazon-corretto-11
 android-tools
 axel
 bemenu
+bluez
 btrfs-progs
 bubblewrap
 cantarell-fonts
@@ -20,7 +22,6 @@ dhcpcd
 docker
 docker-buildx
 docker-compose
-encpipe
 file
 flatpak
 foot-pgo
