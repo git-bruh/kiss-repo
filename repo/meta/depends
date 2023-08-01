@@ -23,6 +23,7 @@ docker
 docker-buildx
 docker-compose
 file
+firefox
 flatpak
 foot-pgo
 gdb

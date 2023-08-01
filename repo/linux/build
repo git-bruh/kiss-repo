@@ -1,12 +1,5 @@
 #!/bin/sh -e
 
-for patch in *.patch; do
-    patch -p1 < "$patch"
-done
-
-export LLVM=1
-sed -i '/^VERSION = /a LLVM = 1' Makefile
-
 make olddefconfig
 
 make syncconfig

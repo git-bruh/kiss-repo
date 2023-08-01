@@ -1,8 +1,2 @@
-https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.3.8.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.4.7.tar.xz
 files/.config
-patches/0005-glitched-pds.patch
-patches/0009-prjc_v6.3-r1.patch
-patches/0013-optimize_harder_O3.patch
-patches/more-uarches-for-kernel-5.17+.patch
-patches/no-perl.patch
-patches/no-thinlto-cache.patch
