@@ -20,7 +20,7 @@ dbus
 dhcpcd
 docker
 docker-buildx
-docker-compose
+docker-compose-bin
 file
 firefox
 flatpak
