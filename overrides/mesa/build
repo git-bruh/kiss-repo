@@ -26,7 +26,7 @@ meson \
     -Dzstd=disabled \
     -Dglvnd="${glvnd_enabled:-true}" \
     -Dvulkan-drivers='' \
-    -Dgallium-drivers='radeonsi' \
+    -Dgallium-drivers=radeonsi,nouveau \
     -Dvideo-codecs=vc1dec,h264dec,h264enc,h265dec,h265enc \
     . output
 
