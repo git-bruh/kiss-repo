@@ -1,6 +1,5 @@
 age
 alsa-utils
-amazon-corretto-11
 android-tools
 axel
 bemenu
@@ -9,7 +8,6 @@ btrfs-progs
 bubblewrap
 cantarell-fonts
 catppuccin-mocha-gtk
-chromium
 clang
 cmake
 cmus
@@ -32,6 +30,7 @@ gnugrep
 go
 grim
 htop
+idmap
 jq
 kak-lsp-bin
 kakoune
@@ -68,6 +67,7 @@ s6-scripts
 scrcpy
 shellcheck-bin
 shfmt-bin
+slirp4netns
 slstatus
 slurp
 strace
