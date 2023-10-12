@@ -11,3 +11,5 @@ meson \
 
 ninja -C output
 ninja -C output install
+
+install -Dm644 wlr-portals.conf "$1/usr/share/xdg-desktop-portal/wlr-portals.conf"
