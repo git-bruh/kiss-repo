@@ -9,8 +9,8 @@ meson \
     --libexecdir=/usr/lib \
     -Dlibportal=disabled \
     -Dgeoclue=disabled \
-    -Dpipewire=enabled \
     -Dsystemd=disabled \
+    -Dpytest=disabled \
     . output
 
 ninja -C output

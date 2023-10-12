@@ -1,8 +1,8 @@
 diff --git a/meson.build b/meson.build
-index a347bbb..6ef8db0 100644
+index 2254c0d..41e0b7c 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -86,7 +86,6 @@ glib_dep = dependency('glib-2.0')
+@@ -103,7 +103,6 @@ glib_dep = dependency('glib-2.0', version: '>= 2.66')
  gio_dep = dependency('gio-2.0')
  gio_unix_dep = dependency('gio-unix-2.0')
  json_glib_dep = dependency('json-glib-1.0')
@@ -10,7 +10,7 @@ index a347bbb..6ef8db0 100644
  gdk_pixbuf_dep = dependency('gdk-pixbuf-2.0')
  geoclue_dep = dependency('libgeoclue-2.0',
                           version: '>= 2.5.2',
-@@ -179,8 +178,6 @@ configure_file(
+@@ -174,8 +173,6 @@ pkgconfig.generate(
  
  subdir('data')
  subdir('src')
@@ -19,3 +19,11 @@ index a347bbb..6ef8db0 100644
  subdir('po')
  subdir('doc')
  
+@@ -188,7 +185,6 @@ summary({
+     'Enable geoclue support': have_geoclue,
+     'Enable libportal support': have_libportal,
+     'Enable installed tests:': enable_installed_tests,
+-    'Enable python test suite': enable_pytest,
+     'Build man pages': rst2man.found(),
+   },
+   section: 'Optional builds',
