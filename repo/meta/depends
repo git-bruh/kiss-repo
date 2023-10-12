@@ -36,7 +36,6 @@ kak-lsp-bin
 kakoune
 kmod
 less
-libtirpc
 libva
 linux
 linux-headers
