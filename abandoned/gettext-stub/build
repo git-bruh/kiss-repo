@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+install -Dm755 /dev/stdin "$1/usr/bin/gettext" <<EOF
+#!/bin/sh
+echo "\$@"
+EOF

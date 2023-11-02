@@ -1,0 +1,72 @@
+diff --git a/ecryptfs-utils-111/configure b/configure
+index 4995a51..6833f6d 100755
+--- a/configure
++++ b/configure
+@@ -13552,7 +13552,7 @@ fi
+   test -n "$POD2MAN" && break
+ done
+ 
+-test -z "${POD2MAN}" && as_fn_error $? "I couldn't find pod2man; make sure it's installed and in your path" "$LINENO" 5
++test -z "${POD2MAN}" && : as_fn_error $? "I couldn't find pod2man; make sure it's installed and in your path" "$LINENO" 5
+ 
+ for ac_prog in tar
+ do
+@@ -16442,7 +16442,7 @@ $as_echo_n "checking for intltool >= 0.41.0... " >&6; }
+     { $as_echo "$as_me:${as_lineno-$LINENO}: result: $INTLTOOL_APPLIED_VERSION found" >&5
+ $as_echo "$INTLTOOL_APPLIED_VERSION found" >&6; }
+     test "$INTLTOOL_APPLIED_VERSION_AS_INT" -ge "$INTLTOOL_REQUIRED_VERSION_AS_INT" ||
+-	as_fn_error $? "Your intltool is too old.  You need intltool 0.41.0 or later." "$LINENO" 5
++	: as_fn_error $? "Your intltool is too old.  You need intltool 0.41.0 or later." "$LINENO" 5
+ fi
+ 
+ # Extract the first word of "intltool-update", so it can be a program name with args.
+@@ -16566,7 +16566,7 @@ fi
+ 
+ 
+ if test -z "$INTLTOOL_UPDATE" -o -z "$INTLTOOL_MERGE" -o -z "$INTLTOOL_EXTRACT"; then
+-    as_fn_error $? "The intltool scripts were not found. Please install intltool." "$LINENO" 5
++    : as_fn_error $? "The intltool scripts were not found. Please install intltool." "$LINENO" 5
+ fi
+ 
+ if test -z "$AM_DEFAULT_VERBOSITY"; then
+@@ -16871,13 +16871,13 @@ fi
+ 
+ 
+ if test -z "$XGETTEXT" -o -z "$MSGMERGE" -o -z "$MSGFMT"; then
+-    as_fn_error $? "GNU gettext tools not found; required for intltool" "$LINENO" 5
++    : as_fn_error $? "GNU gettext tools not found; required for intltool" "$LINENO" 5
+ fi
+ xgversion="`$XGETTEXT --version|grep '(GNU ' 2> /dev/null`"
+ mmversion="`$MSGMERGE --version|grep '(GNU ' 2> /dev/null`"
+ mfversion="`$MSGFMT --version|grep '(GNU ' 2> /dev/null`"
+ if test -z "$xgversion" -o -z "$mmversion" -o -z "$mfversion"; then
+-    as_fn_error $? "GNU gettext tools not found; required for intltool" "$LINENO" 5
++    : as_fn_error $? "GNU gettext tools not found; required for intltool" "$LINENO" 5
+ fi
+ 
+ # Extract the first word of "perl", so it can be a program name with args.
+@@ -16921,13 +16921,13 @@ fi
+ 
+ 
+ if test -z "$INTLTOOL_PERL"; then
+-   as_fn_error $? "perl not found" "$LINENO" 5
++   : as_fn_error $? "perl not found" "$LINENO" 5
+ fi
+ { $as_echo "$as_me:${as_lineno-$LINENO}: checking for perl >= 5.8.1" >&5
+ $as_echo_n "checking for perl >= 5.8.1... " >&6; }
+ $INTLTOOL_PERL -e "use 5.8.1;" > /dev/null 2>&1
+ if test $? -ne 0; then
+-   as_fn_error $? "perl 5.8.1 is required for intltool" "$LINENO" 5
++   : as_fn_error $? "perl 5.8.1 is required for intltool" "$LINENO" 5
+ else
+    IT_PERL_VERSION=`$INTLTOOL_PERL -e "printf '%vd', $^V"`
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $IT_PERL_VERSION" >&5
+@@ -16940,7 +16940,7 @@ $as_echo_n "checking for XML::Parser... " >&6; }
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: ok" >&5
+ $as_echo "ok" >&6; }
+    else
+-       as_fn_error $? "XML::Parser perl module is required for intltool" "$LINENO" 5
++       : as_fn_error $? "XML::Parser perl module is required for intltool" "$LINENO" 5
+    fi
+ fi
+ 

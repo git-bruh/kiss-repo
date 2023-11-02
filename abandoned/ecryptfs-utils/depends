@@ -1,0 +1,5 @@
+gettext-stub
+keyutils
+nspr
+nss
+openssl

@@ -1,0 +1,11 @@
+#!/bin/sh -e
+
+make \
+    DESTDIR="$1" \
+    CFLAGS="${CFLAGS}" \
+    LDFLAGS="${LDFLAGS}" \
+    SBINDIR="/usr/bin" \
+    BINDIR="/usr/bin" \
+    LIBDIR="/usr/lib" \
+    USRLIBDIR="/usr/lib" \
+    install

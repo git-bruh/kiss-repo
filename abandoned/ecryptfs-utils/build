@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+for p in *.patch; do
+    patch -p1 < "$p"
+done
+
+./configure \
+    --prefix=/usr \
+    --disable-pywrap \
+    --disable-pam \
+    --disable-nls
+
+make
+make DESTDIR="$1" rootsbindir="/usr/bin" install
+
+chmod +s "$1/usr/bin/mount.ecryptfs_private"
