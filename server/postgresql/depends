@@ -1,6 +1,0 @@
-clang make
-libedit
-llvm
-openssl
-python
-zlib
