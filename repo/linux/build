@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+patch -p1 < nouveau.patch
+
 make olddefconfig
 
 make syncconfig

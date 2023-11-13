@@ -1,0 +1,23 @@
+diff --git a/drivers/gpu/drm/nouveau/nvkm/core/firmware.c b/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
+index 91fb494..38e23a2 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
++++ b/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
+@@ -221,7 +221,14 @@ nvkm_firmware_ctor(const struct nvkm_firmware_func *func, const char *name,
+ 			fw->phys = addr;
+ 		}
+ 
+-		sg_init_one(&fw->mem.sgl, fw->img, len);
++		if (is_vmalloc_addr(fw->img)) {
++			sg_init_table(&fw->mem.sgl, 1);
++			sg_set_page(&fw->mem.sgl, vmalloc_to_page(fw->img),
++					len, offset_in_page(fw->img));
++		} else {
++			sg_init_one(&fw->mem.sgl, fw->img, len);
++		}
++
+ 		sg_dma_address(&fw->mem.sgl) = fw->phys;
+ 		sg_dma_len(&fw->mem.sgl) = len;
+ 	}
+-- 
+2.42.0
+
