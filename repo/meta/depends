@@ -25,15 +25,12 @@ flatpak
 foot-pgo
 gdb
 glibc
-glow-bin
 gnugrep
 go
 grim
 htop
 idmap
 jq
-kak-lsp-bin
-kakoune
 kmod
 less
 libva
@@ -80,6 +77,7 @@ ttf-font-awesome
 ttf-jetbrains-mono
 twemoji-color-font
 v4l2loopback
+vis
 wayclip
 wireguard-tools
 wl-screenrec
