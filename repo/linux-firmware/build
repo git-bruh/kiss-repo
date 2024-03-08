@@ -2,10 +2,10 @@
 
 IFS=" "
 
-grep '^Link: nvidia/' WHENCE | while read -r _ file _ src; do
+grep '^Link: ' WHENCE | while read -r _ file _ src; do
     mkdir -p "$(dirname "$file")"
     ln -sfv "$src" "$file"
 done
 
 mkdir -p "$1/usr/lib/firmware"
-cp -R amd-ucode amdgpu mediatek nvidia rtlwifi "$1/usr/lib/firmware/"
+cp -R amd-ucode ath11k amdgpu mediatek nvidia rtlwifi "$1/usr/lib/firmware/"
