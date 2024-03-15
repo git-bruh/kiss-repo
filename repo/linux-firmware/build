@@ -8,4 +8,4 @@ grep '^Link: ' WHENCE | while read -r _ file _ src; do
 done
 
 mkdir -p "$1/usr/lib/firmware"
-cp -R amd-ucode ath11k amdgpu mediatek nvidia rtlwifi "$1/usr/lib/firmware/"
+cp -R amd-ucode ath11k amdgpu mediatek nvidia qca rtlwifi "$1/usr/lib/firmware/"
