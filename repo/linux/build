@@ -1,6 +1,10 @@
 #!/bin/sh -e
 
-patch -p1 < nouveau.patch
+export PATH="/usr/lib/ccache/bin:$PATH"
+
+for p in *.patch; do
+    patch -p1 < "$p"
+done
 
 make olddefconfig
 
@@ -37,5 +41,5 @@ rm -rf "$builddir/Documentation"
 find -L "$builddir" -type l -exec rm -rf {} +
 find "$builddir" -type f -name "*.o" -exec rm -rf {} +
 
-mkdir -p "$1/boot/EFI"
-cp arch/x86/boot/bzImage "$1/boot/EFI/KISS.efi"
+mkdir -p "$1/boot/KISS"
+cp arch/x86/boot/bzImage "$1/boot/KISS/vmlinuz"

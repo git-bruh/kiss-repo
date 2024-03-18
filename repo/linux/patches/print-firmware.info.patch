@@ -1,0 +1,12 @@
+--- a/drivers/base/firmware_loader/main.c
++++ b/drivers/base/firmware_loader/main.c
+@@ -809,6 +809,11 @@ _request_firmware(const struct firmware
+ 
+ 	ret = _request_firmware_prepare(&fw, name, device, buf, size,
+ 					offset, opt_flags);
++
++   printk(KERN_NOTICE "Loading firmware: %s\n", name);
++
+ 	if (ret <= 0) /* error or already assigned */
+ 		goto out;
+ 
