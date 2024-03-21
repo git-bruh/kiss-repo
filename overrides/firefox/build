@@ -7,6 +7,10 @@ done
 sed '/UNZIP/d' toolkit/moz.configure > _
 mv -f _ toolkit/moz.configure
 
+export CC=clang
+export CXX=clang++
+export LD=ld.lld
+
 # If using libc++, CXXSTDLIB needs to be set manually.
 case $("$CC" -print-file-name=libc++.so) in */*)
     export CXXSTDLIB=c++
@@ -30,6 +34,8 @@ cat > .mozconfig << EOF
 ac_add_options --prefix=/usr
 ac_add_options --libdir=/usr/lib
 ac_add_options --enable-default-toolkit=cairo-gtk3-wayland-only
+ac_add_options --enable-linker=lld
+ac_add_options --enable-lto=cross,full
 ac_add_options --enable-strip
 ac_add_options --enable-release
 ac_add_options --enable-rust-simd
