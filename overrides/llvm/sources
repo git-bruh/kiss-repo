@@ -1,2 +1,3 @@
 https://github.com/llvm/llvm-project/archive/llvmorg-18.1.1.tar.gz
+patches/musl-stack-size.patch
 patches/musl-targets.patch
