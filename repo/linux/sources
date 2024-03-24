@@ -1,4 +1,5 @@
 https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.7.10.tar.xz
 files/.config
+patches/linux6.7.y-bore5.0.1.patch
 patches/nouveau.patch
 patches/print-firmware.info.patch
