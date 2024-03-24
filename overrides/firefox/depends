@@ -14,6 +14,7 @@ libdrm
 libffi
 libjpeg-turbo
 libpng
+libpulse
 libvpx
 libwebp
 lld           make
@@ -25,7 +26,6 @@ nodejs        make
 nspr
 nss
 pango
-pipewire      make
 pixman
 pkgconf       make
 python        make
