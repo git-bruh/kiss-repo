@@ -1,6 +1,5 @@
 android-tools
 axel
-bemenu
 bluez
 btrfs-progs
 cantarell-fonts
@@ -38,6 +37,7 @@ mdev-usb
 mpv
 opendoas
 openssh
+pick
 pigz
 pipewire
 pkgconf
@@ -55,7 +55,6 @@ sway
 swaybg
 syncthing
 tinyramfs-git
-tmux
 ttf-font-awesome
 ttf-jetbrains-mono
 twemoji-color-font
@@ -63,6 +62,7 @@ tzdata
 vis
 wl-clipboard
 wl-screenrec
+wmenu
 wpa_supplicant
 xdg-desktop-portal-wlr
 yash
