@@ -1,0 +1,53 @@
+diff --git a/lua/plugins/complete-word.lua b/lua/plugins/complete-word.lua
+index 7812751..f386df4 100644
+--- a/lua/plugins/complete-word.lua
++++ b/lua/plugins/complete-word.lua
+@@ -24,7 +24,7 @@ vis:map(vis.modes.INSERT, "<C-n>", function()
+ 	if #candidates == 1 and candidates[1] == "\n" then return end
+ 	candidates = table.concat(candidates, "\n")
+ 
+-	local cmd = "printf '" .. candidates .. "' | sort -u | vis-menu"
++	local cmd = "printf '" .. candidates .. "' | sort -u | fzy -l 5"
+ 	local status, out, err = vis:pipe(cmd)
+ 	if status ~= 0 or not out then
+ 		if err then vis:info(err) end
+diff --git a/vis-complete b/vis-complete
+index db925f6..492d23e 100755
+--- a/vis-complete
++++ b/vis-complete
+@@ -79,6 +79,6 @@ else
+ 		sort |
+ 		sed "s|^$(dirname $XPATTERN)/||"
+ fi |
+-	vis-menu -b |
++	fzy -l 5 |
+ 	sed "s|^$(basename $PATTERN)$(echo $PATTERN | tail -c 2 | grep -F /)||" |
+ 	tr -d '\n'
+diff --git a/vis-open b/vis-open
+index 28d1b1a..5fd21cb 100755
+--- a/vis-open
++++ b/vis-open
+@@ -5,11 +5,11 @@ set -e
+ NL='
+ '
+ 
+-if [ -z "$VIS_OPEN_LINES" ]; then
+-	VIS_OPEN_LINES='0'
++if [ "${VIS_OPEN_LINES:-0}" -lt 3 ]; then
++	VIS_OPEN_LINES='5'
+ fi
+ 
+-VIS_MENU_PROMPT=''
++VIS_MENU_PROMPT='> '
+ ALLOW_AUTO_SELECT='1'
+ 
+ wrap_dirs() {
+@@ -70,7 +70,7 @@ fi
+ 
+ # At this point, we have a bunch of options we need to present to the
+ # user so they can pick one.
+-CHOICE="$(printf '%s\n' '..' "$@" | wrap_dirs | vis-menu -b -l "$VIS_OPEN_LINES" -p "$VIS_MENU_PROMPT")"
++CHOICE="$(printf '%s\n' '..' "$@" | wrap_dirs | fzy -l "$VIS_OPEN_LINES" -p "$VIS_MENU_PROMPT")"
+ 
+ # Did they pick a file or directory? Who knows, let's let the next iteration figure it out.
+ exec "$0" -p "$VIS_MENU_PROMPT" -- "$CHOICE"
