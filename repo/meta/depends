@@ -17,6 +17,7 @@ file
 firefox
 flatpak
 foot-pgo
+fzy
 gdb
 gnugrep
 go
@@ -37,7 +38,6 @@ mdev-usb
 mpv
 opendoas
 openssh
-pick
 pigz
 pipewire
 pkgconf
