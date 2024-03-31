@@ -1,0 +1,44 @@
+diff --git a/lua/plugins/complete-word.lua b/lua/plugins/complete-word.lua
+index 5e355e8..520cc94 100644
+--- a/lua/plugins/complete-word.lua
++++ b/lua/plugins/complete-word.lua
+@@ -24,8 +24,7 @@ vis:map(vis.modes.INSERT, "<C-n>", function()
+ 	if #candidates == 1 and candidates[1] == "\n" then return end
+ 	candidates = table.concat(candidates, "\n")
+ 
+-	local cmd = "printf '" .. candidates .. "' | sort -u | vis-menu"
+-	local status, out, err = vis:pipe(cmd)
++	local status, out, err = vis:pipe_buffer(candidates, "sort -u | vis-menu")
+ 	if status ~= 0 or not out then
+ 		if err then vis:info(err) end
+ 		return
+diff --git a/lua/vis.lua b/lua/vis.lua
+index f2f9421..f33a536 100644
+--- a/lua/vis.lua
++++ b/lua/vis.lua
+@@ -113,6 +113,25 @@ vis.module_exist = function(_, name)
+ 	return false
+ end
+ 
++--- Pipe a buffer to a command
++--
++-- @tparam string buffer to pipe
++-- @tparam string command
++-- @tparam[opt] bool fullscreen whether command is a fullscreen program
++-- @treturn int code the exit status of the executed command
++-- @treturn string stdout the data written to stdout
++-- @treturn string stderr the data written to stderr
++vis.pipe_buffer = function(vis, buffer, cmd, fullscreen)
++	vis:command("open")
++	vis.win.file:insert(0, buffer)
++
++	local status, stdout, stderr = vis:pipe(vis.win.file, {start = 0, finish = vis.win.file.size}, cmd, fullscreen)
++
++	vis.win:close(true)
++
++	return status, stdout, stderr
++end
++
+ vis.lexers = {}
+ 
+ if not vis:module_exist('lpeg') then

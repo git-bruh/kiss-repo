@@ -1,16 +1,16 @@
 diff --git a/lua/plugins/complete-word.lua b/lua/plugins/complete-word.lua
-index 7812751..f386df4 100644
+index 520cc94..77df756 100644
 --- a/lua/plugins/complete-word.lua
 +++ b/lua/plugins/complete-word.lua
 @@ -24,7 +24,7 @@ vis:map(vis.modes.INSERT, "<C-n>", function()
  	if #candidates == 1 and candidates[1] == "\n" then return end
  	candidates = table.concat(candidates, "\n")
  
--	local cmd = "printf '" .. candidates .. "' | sort -u | vis-menu"
-+	local cmd = "printf '" .. candidates .. "' | sort -u | fzy -l 5"
- 	local status, out, err = vis:pipe(cmd)
+-	local status, out, err = vis:pipe_buffer(candidates, "sort -u | vis-menu")
++	local status, out, err = vis:pipe_buffer(candidates, "sort -u | fzy -l 5")
  	if status ~= 0 or not out then
  		if err then vis:info(err) end
+ 		return
 diff --git a/vis-complete b/vis-complete
 index db925f6..492d23e 100755
 --- a/vis-complete
