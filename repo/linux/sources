@@ -1,5 +1,5 @@
-https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.8.4.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.11.1.tar.xz
 files/.config
-patches/linux6.8.y-bore5.0.3.patch
+patches/0001-linux6.11.y-bore5.3.0.patch
 patches/nouveau.patch
 patches/print-firmware.info.patch
