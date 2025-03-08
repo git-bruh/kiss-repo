@@ -1,7 +1,0 @@
-#!/bin/sh -e
-
-go build ./cmd/tailscale
-go build ./cmd/tailscaled
-
-mkdir -p "$1/usr/bin"
-cp tailscale tailscaled "$1/usr/bin/"
