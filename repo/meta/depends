@@ -1,3 +1,4 @@
+age
 android-tools
 axel
 bluez
@@ -21,13 +22,17 @@ fzy
 gdb
 gnugrep
 go
+gopls
 grim
 htop
 iproute2
+iw
 jq
 less
 libva
+linux
 linux-headers
+lld
 llvm
 lm-sensors
 lsof
@@ -36,6 +41,7 @@ man-pages
 mandoc
 mdev-usb
 mpv
+nodejs
 opendoas
 openssh
 pigz
@@ -44,6 +50,7 @@ pkgconf
 pv
 qemu
 qogir-cursors
+rust
 s6-linux-init
 s6-rc
 s6-scripts
@@ -67,3 +74,5 @@ wpa_supplicant
 xdg-desktop-portal-wlr
 yash
 yt-dlp
+zig-bin
+zls-bin
