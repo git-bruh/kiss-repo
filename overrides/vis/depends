@@ -1,5 +1,0 @@
-libtermkey make
-lpeg       make
-lua        make
-lua-dkjson
-ncurses
