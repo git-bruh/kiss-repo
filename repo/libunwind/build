@@ -1,7 +1,12 @@
 #!/bin/sh -e
 
+export LDFLAGS="$LDFLAGS -lucontext"
+export CFLAGS="$CFLAGS -fno-stack-protector"
+
 ./configure \
-    --prefix=/usr
+    --prefix=/usr \
+    --enable-cxx-exceptions \
+    --disable-tests
 
 make
 make DESTDIR="$1" install
