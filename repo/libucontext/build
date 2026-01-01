@@ -1,0 +1,3 @@
+#!/bin/sh -e
+
+make ARCH=x86_64 DESTDIR="$1" install

@@ -3,6 +3,7 @@ bison make
 flex make
 libelf
 libiberty make
+libtraceevent
 libunwind
 openssl
 pkgconf make
