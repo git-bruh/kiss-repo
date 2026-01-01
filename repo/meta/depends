@@ -6,6 +6,7 @@ btrfs-progs
 cantarell-fonts
 catppuccin-mocha-gtk
 clang
+cmark-gfm
 cryptsetup
 curl
 dbus
@@ -18,16 +19,17 @@ file
 firefox
 flatpak
 foot-pgo
-fzy
 gdb
 gnugrep
 go
 gopls
 grim
+helix
 htop
 iproute2
 iw
 jq
+kanshi
 less
 libva
 linux
@@ -44,6 +46,7 @@ mpv
 nodejs
 opendoas
 openssh
+perf
 pigz
 pipewire
 pkgconf
@@ -51,6 +54,7 @@ pv
 qemu
 qogir-cursors
 rust
+rustup-bin
 s6-linux-init
 s6-rc
 s6-scripts
@@ -61,12 +65,12 @@ strace
 sway
 swaybg
 syncthing
+tcpdump
 tinyramfs-git
 ttf-font-awesome
 ttf-jetbrains-mono
 twemoji-color-font
 tzdata
-vis
 wl-clipboard
 wl-screenrec
 wmenu
