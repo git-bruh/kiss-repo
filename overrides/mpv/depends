@@ -1,0 +1,14 @@
+alsa-lib
+ffmpeg
+libass
+libplacebo
+libva
+libxkbcommon
+linux-headers make
+luajit
+mesa
+meson   make
+pkgconf make
+python-docutils  make
+wayland
+wayland-protocols make
