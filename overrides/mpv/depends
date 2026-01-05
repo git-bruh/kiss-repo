@@ -8,6 +8,7 @@ linux-headers make
 luajit
 mesa
 meson   make
+pipewire
 pkgconf make
 python-docutils  make
 wayland
