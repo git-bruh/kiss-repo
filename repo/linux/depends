@@ -1,5 +1,7 @@
-ccache make
+bison make
 libelf
 linux-firmware make
+openssl make
 perl make
+pigz make
 zstd make
