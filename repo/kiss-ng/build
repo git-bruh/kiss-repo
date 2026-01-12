@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+export ZIG_GLOBAL_CACHE_DIR="$PWD/.zig-cache"
+
+:>nostrip
+
+zig build \
+    -Dcpu=baseline \
+    -Doptimize=ReleaseSafe \
+    -Dstatic=true
+
+mkdir -p "$1/usr/bin"
+cp zig-out/bin/kiss-ng "$1/usr/bin/"

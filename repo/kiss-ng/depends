@@ -1,0 +1,4 @@
+b3sum make
+curl make
+libarchive make
+zig-bin make
