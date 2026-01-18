@@ -1,0 +1,17 @@
+diff --git a/clang/lib/Frontend/InitPreprocessor.cpp b/clang/lib/Frontend/InitPreprocessor.cpp
+index cce8392..2e572cc 100644
+--- a/clang/lib/Frontend/InitPreprocessor.cpp
++++ b/clang/lib/Frontend/InitPreprocessor.cpp
+@@ -1538,6 +1538,11 @@ static void InitializePredefinedMacros(const TargetInfo &TI,
+   if (LangOpts.PointerAuthIntrinsics)
+     Builder.defineMacro("__PTRAUTH__");
+ 
++  // Enable fortify by default on musl when optimizing, but not with asan
++  if (TI.getTriple().isMusl() && LangOpts.Optimize &&
++      !LangOpts.Sanitize.has(SanitizerKind::Address))
++    Builder.defineMacro("_FORTIFY_SOURCE", "2");
++
+   // Get other target #defines.
+   TI.getTargetDefines(LangOpts, Builder);
+ }
+

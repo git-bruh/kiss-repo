@@ -10,25 +10,67 @@ cmake -B build \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_BUILD_TYPE=Release \
     -DCOMPILER_RT_INSTALL_PATH="/usr/lib/clang/$2" \
-    -DCOMPILER_RT_BUILD_GWP_ASAN=OFF \
+    -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF \
     -DLLVM_BUILD_LLVM_DYLIB=ON \
     -DLLVM_LINK_LLVM_DYLIB=ON \
-    -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;compiler-rt;lld" \
+    -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lld" \
+    -DLLVM_ENABLE_RUNTIMES="compiler-rt;libunwind;libcxxabi;libcxx" \
     -DLLVM_ENABLE_RTTI=ON \
-    -DLLVM_HOST_TRIPLE="$(cc -dumpmachine)" \
+    -DLLVM_ENABLE_EH=ON \
+    -DLLVM_HOST_TRIPLE="$(clang -dumpmachine)" \
     -DLLVM_INCLUDE_BENCHMARKS=OFF \
     -DLLVM_INCLUDE_EXAMPLES=OFF \
     -DLLVM_INCLUDE_DOCS=OFF \
     -DLLVM_INCLUDE_TESTS=OFF \
-    -DLLVM_ENABLE_TERMINFO=OFF \
     -DLLVM_ENABLE_LIBXML2=OFF \
+    -DLLVM_ENABLE_LIBCXX=ON \
+    -DLLVM_ENABLE_LLD=ON \
+    -DLLVM_INSTALL_BINUTILS_SYMLINKS=ON \
+    -DLIBUNWIND_ENABLE_ASSERTIONS=OFF \
+    -DLIBUNWIND_USE_COMPILER_RT=ON \
+    -DLIBCXXABI_USE_LLVM_UNWINDER=ON \
+    -DLIBCXXABI_USE_COMPILER_RT=ON \
+    -DLIBCXXABI_ENABLE_STATIC_UNWINDER=ON \
+    -DLIBCXXABI_STATICALLY_LINK_UNWINDER_IN_SHARED_LIBRARY=ON \
+    -DLIBCXXABI_ENABLE_SHARED=OFF \
+    -DLIBCXX_CXX_ABI=libcxxabi \
+    -DLIBCXX_USE_COMPILER_RT=ON \
+    -DLIBCXX_HAS_MUSL_LIBC=ON \
+    -DLIBCXX_ENABLE_STATIC_ABI_LIBRARY=ON \
+    -DLIBCXX_STATICALLY_LINK_ABI_IN_SHARED_LIBRARY=ON \
+    -DLIBCXX_STATICALLY_LINK_ABI_IN_STATIC_LIBRARY=ON \
+    -DCOMPILER_RT_BUILD_GWP_ASAN=OFF \
+    -DCOMPILER_RT_USE_BUILTINS_LIBRARY=ON \
+    -DCOMPILER_RT_USE_ATOMIC_LIBRARY=ON \
+    -DCOMPILER_RT_EXCLUDE_ATOMIC_BUILTIN=OFF \
+    -DCOMPILER_RT_LIBATOMIC_USE_PTHREAD=ON \
+    -DCLANG_DEFAULT_CXX_STDLIB=libc++ \
+    -DCLANG_DEFAULT_RTLIB=compiler-rt \
     -Wno-dev llvm
 
 cmake --build   build
 cmake --install build
 
+# libc++abi header files
+mkdir -p "$1/usr"
+cp -r libcxxabi/include "$1/usr"
+
 # Provide lld as an alternative to ld.
 ln -s lld "$1/usr/bin/ld"
+
+# Clang: Some legacy programs may require cc
+ln -s clang "$1/usr/bin/cc"
+
+# Clang: equivalent for c++
+ln -s clang++ "$1/usr/bin/c++"
+
+# Clang: equivalent for cpp
+ln -s clang-cpp "$1/usr/bin/cpp"
+
+ln -sf llvm-as "$1/usr/bin/as"
+
+# Clang: POSIX compliance
+cp -f c99 "$1/usr/bin/c99"
 
 # Fix up libexec location. This can't be done during
 # the configure stage of the build as it is hardcoded.

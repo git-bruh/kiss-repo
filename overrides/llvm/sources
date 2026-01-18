@@ -1,3 +1,6 @@
 https://github.com/llvm/llvm-project/archive/llvmorg-21.1.8.tar.gz
+patches/fortify-enable.patch
 patches/musl-stack-size.patch
 patches/musl-targets.patch
+patches/no-libatomic.patch
+files/c99
