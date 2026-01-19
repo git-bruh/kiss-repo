@@ -1,0 +1,31 @@
+From 0c528aeeeb4c1994fde6ae8a97895b45d030a8b8 Mon Sep 17 00:00:00 2001
+From: Chul-Woong Yang <cwyang@gmail.com>
+Date: Thu, 26 Jun 2025 09:20:22 +0900
+Subject: [PATCH] Fix for -Wp,MD
+
+This fix ensures that icecc properly handles dependency arguments
+where the filename is embedded in the option itself,
+rather than trying to override it with its own dependency file specification.
+---
+ client/arg.cpp | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/client/arg.cpp b/client/arg.cpp
+index 8f685799..dcdd666e 100644
+--- a/client/arg.cpp
++++ b/client/arg.cpp
+@@ -348,6 +348,14 @@ int analyse_argv(const char * const *argv, CompileJob &job, bool icerun, list<st
+                 args.append(a, Arg_Local);
+                 /* These two generate dependencies as a side effect.  They
+                  * should work with the way we call cpp. */
++                if (str_startswith("-Wp,-MD", a) || str_startswith("-Wp,-MMD", a)) {
++                    /* When -Wp,-MD or -Wp,-MMD includes a filename */
++                    const char* comma = strchr(a + 7, ',');
++                    if (comma != nullptr) {
++                        seen_mf = true;
++                        /* we saw the filename so don't add additional -MF */
++                    }
++                }
+             } else if (!strcmp(a, "-MG") || !strcmp(a, "-MP")) {
+                 args.append(a, Arg_Local);
+                 /* These just modify the behaviour of other -M* options and do
