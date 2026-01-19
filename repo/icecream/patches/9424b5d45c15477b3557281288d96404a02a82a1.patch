@@ -1,0 +1,35 @@
+From 9424b5d45c15477b3557281288d96404a02a82a1 Mon Sep 17 00:00:00 2001
+From: git-bruh <prathamIN@proton.me>
+Date: Mon, 19 Jan 2026 00:00:54 +0530
+Subject: [PATCH] fix: don't fail on large messages (for projects like LLVM)
+
+---
+ services/comm.cpp | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/services/comm.cpp b/services/comm.cpp
+index ad53393a1..cb5758f53 100644
+--- a/services/comm.cpp
++++ b/services/comm.cpp
+@@ -263,9 +263,7 @@ bool MsgChannel::update_state()
+             (*this) >> inmsglen;
+ 
+             if (inmsglen > MAX_MSG_SIZE) {
+-                log_error() << "received a too large message (size " << inmsglen << "), ignoring" << endl;
+-                set_error();
+-                return false;
++                log_warning() << "received a too large message (size " << inmsglen << ")" << endl;
+             }
+ 
+             if (inbuflen - intogo < inmsglen) {
+@@ -1319,9 +1317,7 @@ bool MsgChannel::send_msg(const Msg &m, int flags)
+         m.send_to_channel(this);
+         uint32_t out_len = msgtogo - msgtogo_old - 4;
+         if(out_len > MAX_MSG_SIZE) {
+-            log_error() << "internal error - size of message to write exceeds max size:" << out_len << endl;
+-            set_error();
+-            return false;
++            log_warning() << "size of message to write exceeds max size:" << out_len << endl;
+         }
+         uint32_t len = htonl(out_len);
+         memcpy(msgbuf + msgtogo_old, &len, 4);

@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+patch -p1 < 9424b5d45c15477b3557281288d96404a02a82a1.patch
+
+./configure \
+    --prefix=/usr \
+    --libexecdir=/usr/lib \
+    --enable-shared \
+    --enable-clang-wrappers \
+    --enable-clang-rewrite-includes \
+    --without-man
+
+make
+make DESTDIR="$1" install
