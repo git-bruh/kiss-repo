@@ -5,6 +5,7 @@ cd tools/perf
 mk() {
     make \
         prefix="/usr" bindir_relative="bin" \
+        HOSTCC="$CC" \
         EXTRA_CFLAGS="${CFLAGS}" \
         EXTRA_LDFLAGS="${LDFLAGS}" \
         WERROR=0 \
