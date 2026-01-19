@@ -7,13 +7,6 @@ done
 sed '/UNZIP/d' toolkit/moz.configure > _
 mv -f _ toolkit/moz.configure
 
-export CC=clang
-export CXX=clang++
-export LD=ld.lld
-export AR=llvm-ar
-export NM=llvm-nm
-export RANLIB=llvm-ranlib
-
 # If using libc++, CXXSTDLIB needs to be set manually.
 case $("$CC" -print-file-name=libc++.so) in */*)
     export CXXSTDLIB=c++
