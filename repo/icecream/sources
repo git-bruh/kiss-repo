@@ -1,3 +1,4 @@
 https://github.com/icecc/icecream/releases/download/1.4/icecc-1.4.0.tar.xz
 patches/fix-dependency-args.patch
+patches/fix-imacros.patch
 patches/fix-large-files.patch

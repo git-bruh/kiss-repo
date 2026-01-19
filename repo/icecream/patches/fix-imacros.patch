@@ -1,0 +1,44 @@
+From 6c182626e7ff533eaa915ea2584245045349198e Mon Sep 17 00:00:00 2001
+From: git-bruh <prathamIN@proton.me>
+Date: Tue, 20 Jan 2026 00:20:02 +0530
+Subject: [PATCH] fix: disable remote preprocessing if -imacros is passed
+
+---
+ client/arg.cpp | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/client/arg.cpp b/client/arg.cpp
+index 3a26dc459..d0f2382a2 100644
+--- a/client/arg.cpp
++++ b/client/arg.cpp
+@@ -312,6 +312,7 @@ bool analyse_argv(const char * const *argv, CompileJob &job, bool icerun, list<s
+     bool wunused_macros = false;
+     bool seen_arch = false;
+     bool seen_pedantic = false;
++    bool seen_imacros = false;
+     bool seen_march_native = false;
+     bool seen_mcpu_native = false;
+     bool seen_mtune_native = false;
+@@ -553,6 +554,9 @@ bool analyse_argv(const char * const *argv, CompileJob &job, bool icerun, list<s
+                        || str_equal("-iwithprefixbefore", a)
+                        || str_equal("--include-with-prefix-before", a)
+                        || str_equal("-iwithsysroot", a)) {
++                if (str_equal("-imacros", a)) {
++                    seen_imacros = true;
++                }
+                 args.append(a, Arg_Local);
+ 
+                 assert( is_argument_with_space( a ));
+@@ -876,6 +880,12 @@ bool analyse_argv(const char * const *argv, CompileJob &job, bool icerun, list<s
+         job.setBlockRewriteIncludes(true);
+     }
+ 
++    // -imacros doesn't define any macros when used with remote preprocessing
++    if ( seen_imacros ) {
++        log_warning() << "argument -imacros, forcing local preprocessing" << endl;
++        job.setBlockRewriteIncludes(true);
++    }
++
+     // -pedantic doesn't work with remote preprocessing, if extensions to a named standard
+     // are allowed.  GCC allows GNU extensions by default, so let's check if a standard
+     // other than eg gnu11 or gnu++14 was specified.
