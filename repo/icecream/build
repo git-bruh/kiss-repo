@@ -2,10 +2,13 @@
 
 patch -p1 < 9424b5d45c15477b3557281288d96404a02a82a1.patch
 
+export LDFLAGS="$LDFLAGS --static"
+export PKG_CONFIG="pkg-config --static"
+
 ./configure \
     --prefix=/usr \
     --libexecdir=/usr/lib \
-    --enable-shared \
+    --disable-shared \
     --enable-clang-wrappers \
     --enable-clang-rewrite-includes \
     --without-man

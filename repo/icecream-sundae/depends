@@ -1,4 +1,7 @@
 glib
-icecream
+icecream make
+libcap-ng
+lzo make
 meson make
 ncurses
+zstd

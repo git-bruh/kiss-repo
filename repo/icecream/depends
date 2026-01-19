@@ -1,4 +1,5 @@
-libarchive
-libcap-ng
+libarchive make
+libcap-ng make
 libtool make
-lzo
+lzo make
+zstd make
