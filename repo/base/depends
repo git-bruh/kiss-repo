@@ -1,0 +1,11 @@
+baselayout
+busybox
+git
+gnugrep
+icecream
+linux-headers
+llvm
+make
+musl
+pkgconf
+util-linux
