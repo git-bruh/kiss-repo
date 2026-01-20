@@ -1,5 +1,6 @@
 bison make
-libelf make
+flex make
+libelf
 linux-firmware make
 openssl make
 perl make

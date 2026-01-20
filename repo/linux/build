@@ -1,21 +1,23 @@
 #!/bin/sh -e
 
-export PATH="/usr/lib/ccache/bin:$PATH"
-
 for p in *.patch; do
     patch -p1 < "$p"
 done
 
-make olddefconfig
+mk() {
+    make HOSTCC="$CC" CC="$CC" "$@"
+}
 
-make syncconfig
-KERNELRELEASE="$(make kernelrelease)"
+mk olddefconfig
+
+mk syncconfig
+KERNELRELEASE="$(mk kernelrelease)"
 
 modulesdir="$1/usr/lib/modules/$KERNELRELEASE"
 builddir="$modulesdir/build"
 
-make
-make INSTALL_MOD_PATH="$1/usr" INSTALL_MOD_STRIP=1 modules_install
+mk
+mk INSTALL_MOD_PATH="$1/usr" INSTALL_MOD_STRIP=1 modules_install
 
 rm -f "$modulesdir/build" "$modulesdir/source"
 
