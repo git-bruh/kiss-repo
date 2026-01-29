@@ -14,6 +14,10 @@ cryptsetup
 curl
 dbus
 dhcpcd
+dinit
+dinit-rc
+dinit-user-spawn
+dnsmasq
 docker
 docker-buildx
 docker-compose-bin
@@ -29,6 +33,7 @@ go
 gopls
 grim
 helix
+hostapd
 htop
 icecream
 icecream-sundae
@@ -63,9 +68,6 @@ qemu
 qogir-cursors
 rust
 rustup-bin
-s6-linux-init
-s6-rc
-s6-scripts
 scrcpy
 shellcheck-bin
 slstatus
