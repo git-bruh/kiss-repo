@@ -5,4 +5,5 @@ linux-firmware make
 openssl make
 perl make
 pigz make
+wireless-regdb make
 zstd make

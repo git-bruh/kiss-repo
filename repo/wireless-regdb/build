@@ -1,0 +1,3 @@
+#!/bin/sh -e
+
+make install DESTDIR="$1" MANDIR=usr/share/man FIRMWARE_PATH=usr/lib/firmware
