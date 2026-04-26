@@ -1,7 +1,9 @@
-https://ftp.mozilla.org/pub/firefox/releases/147.0.3/source/firefox-147.0.3.source.tar.xz
+https://ftp.mozilla.org/pub/firefox/releases/149.0.2/source/firefox-149.0.2.source.tar.xz
 patches/fix-header-musl.patch
+patches/fix-missing-cstdint.patch
 patches/fix-musl-redefined-prctl_mm_map.patch
 patches/fix-target-detection.patch
+patches/fix-webrtc-pid_t.patch
 patches/libcxx-visibility-fix.patch
 patches/musl-sandbox.patch
 patches/no-atk.patch
