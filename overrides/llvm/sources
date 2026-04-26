@@ -1,4 +1,4 @@
-https://github.com/llvm/llvm-project/archive/llvmorg-21.1.8.tar.gz
+https://github.com/llvm/llvm-project/archive/llvmorg-22.1.4.tar.gz
 patches/fortify-enable.patch
 patches/musl-stack-size.patch
 patches/musl-targets.patch
