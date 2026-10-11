@@ -1,5 +1,4 @@
-https://github.com/llvm/llvm-project/archive/llvmorg-22.1.8.tar.gz
-patches/fix-rtsan-build.patch
+https://github.com/llvm/llvm-project/archive/llvmorg-23.1.2.tar.gz
 patches/fortify-enable.patch
 patches/musl-stack-size.patch
 patches/musl-targets.patch
