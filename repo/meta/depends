@@ -17,7 +17,6 @@ dhcpcd
 dinit
 dinit-rc
 dinit-user-spawn
-dnsmasq
 docker
 docker-buildx
 docker-compose-bin
