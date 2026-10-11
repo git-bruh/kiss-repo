@@ -1,6 +1,8 @@
-https://ftp.mozilla.org/pub/firefox/releases/149.0.2/source/firefox-149.0.2.source.tar.xz
-patches/fix-header-musl.patch
-patches/fix-missing-cstdint.patch
+https://ftp.mozilla.org/pub/firefox/releases/157.0.1/source/firefox-157.0.1.source.tar.xz
+patches/bindgen-llvm.patch
+patches/fix-audio_thread_priority-musl.patch
+patches/fix-gcc-ffmpeg.patch
+patches/fix-musl-parakeet.patch
 patches/fix-musl-redefined-prctl_mm_map.patch
 patches/fix-target-detection.patch
 patches/fix-webrtc-pid_t.patch
